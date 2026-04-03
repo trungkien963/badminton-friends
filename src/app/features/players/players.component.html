@@ -1,0 +1,71 @@
+<div class="container" style="padding-top: 40px; min-height: 100vh;">
+  
+  <div class="flex-between" style="margin-bottom: 30px;">
+    <div>
+      <h1 class="text-gradient" style="font-size: 2.5rem; margin-bottom: 5px;">HỘI VIÊN</h1>
+      <h3 style="color: var(--primary-color); font-weight: 500;">Danh sách người chơi</h3>
+    </div>
+    <button routerLink="/" class="ocean-gradient-btn" style="padding: 10px 20px;">
+      <span style="display: flex; align-items: center; gap: 8px;">
+        🏠 Quay lại
+      </span>
+    </button>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 30px;">
+    
+    <!-- Add Player Form -->
+    <div class="glass-card" style="padding: 30px; height: fit-content;">
+      <h2 style="color: var(--primary-color); border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 25px;">
+        Thêm Người Chơi
+      </h2>
+      
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; margin-bottom: 8px; color: var(--text-light); font-size: 0.9rem;">Tên người chơi</label>
+        <input type="text" [(ngModel)]="newPlayerName" 
+               style="width: 100%; padding: 12px 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.2); color: white; outline: none; box-sizing: border-box;" 
+               placeholder="Nhập tên...">
+      </div>
+
+      <div style="margin-bottom: 30px;">
+        <label style="display: block; margin-bottom: 8px; color: var(--text-light); font-size: 0.9rem;">Trình độ (Seed)</label>
+        <select [(ngModel)]="newPlayerLevel" 
+                style="width: 100%; padding: 12px 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.5); color: white; outline: none; box-sizing: border-box; appearance: none;">
+          <option *ngFor="let lvl of levels" [value]="lvl" style="background: var(--surface-dark);">{{lvl}}</option>
+        </select>
+      </div>
+
+      <button (click)="addPlayer()" class="gradient-btn" style="width: 100%; padding: 14px; font-size: 1.1rem; cursor: pointer;">
+        + Thêm vào danh sách
+      </button>
+    </div>
+
+    <!-- Player List -->
+    <div class="solid-dark-card" style="padding: 30px;">
+       <h2 style="color: white; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 25px;">
+        Danh sách hiện tại ({{players.length}})
+      </h2>
+
+      <div *ngIf="players.length === 0" style="text-align: center; padding: 40px; color: var(--text-light);">
+        Chưa có người chơi nào. Hãy thêm ở cột bên trái!
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 15px;">
+        <div *ngFor="let p of players" class="glass-card" style="padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.05); border: none;">
+          <div>
+            <div style="font-size: 1.2rem; font-weight: 600; margin-bottom: 4px;">{{ p.name }}</div>
+            <div style="font-size: 0.8rem; color: var(--primary-color);">
+              {{ p.level }} • Điểm: {{ p.rankingScore }}
+            </div>
+          </div>
+          <div>
+            <button (click)="deletePlayer(p.id)" style="background: rgba(231, 76, 60, 0.2); color: #FF6B6B; border: 1px solid rgba(231, 76, 60, 0.3); padding: 8px 12px; border-radius: 6px; cursor: pointer; transition: 0.2s;">
+              Xóa
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,103 @@
+<div class="container" style="padding-top: 40px; padding-bottom: 50px; min-height: 100vh;">
+  
+  <!-- TEXT HIGHLIGHT HERO -->
+  <div class="flex-center" style="margin-bottom: 60px; margin-top: 40px;">
+    <div style="max-width: 600px; width: 100%; padding: 20px; position: relative; display: flex; flex-direction: column; align-items: center;">
+      
+      <!-- Glowing Orbs Background -->
+      <div style="position: absolute; top: -20px; left: 0%; width: 250px; height: 250px; background: radial-gradient(circle, rgba(178,216,81,0.15) 0%, transparent 70%); filter: blur(40px); border-radius: 50%; pointer-events: none; z-index: 0;"></div>
+      
+      <!-- Title Section with Accent Bar -->
+      <div style="position: relative; display: flex; align-items: center; justify-content: center; margin-bottom: 50px; width: 100%; z-index: 1;">
+         
+         <!-- The Accent Bar (to match user's minimalist request) -->
+         <div style="width: 4px; height: 100px; background: rgba(255,255,255,0.25); border-radius: 4px; margin-right: 25px; display: block;"></div>
+
+         <div style="text-align: center;">
+            <h1 style="font-size: clamp(3.5rem, 13vw, 6rem); margin-bottom: 0px; line-height: 1; font-weight: 900; letter-spacing: -2px; color: white; filter: drop-shadow(0 10px 20px rgba(255,255,255,0.15));">
+              BADMINTON
+            </h1>
+            <h2 style="color: var(--primary-color); font-weight: 700; margin-bottom: 0px; margin-top: 10px; font-size: clamp(0.9rem, 3.5vw, 1.4rem); letter-spacing: 6px; text-transform: uppercase;">
+              MATCHMAKING CLUB
+            </h2>
+         </div>
+
+      </div>
+      
+      <!-- Action Buttons -->
+      <div style="display: flex; flex-direction: column; gap: 20px; align-items: center; width: 100%; z-index: 2;">
+         <button routerLink="/match" style="background: linear-gradient(135deg, var(--primary-color) 0%, #8cae3a 100%); border: none; color: #112B1C; padding: 18px 30px; font-size: 1.25rem; font-weight: 800; border-radius: 16px; cursor: pointer; width: 100%; max-width: 350px; box-shadow: 0 10px 30px rgba(178,216,81,0.25); transition: transform 0.2s; font-family: inherit;">
+           Bắt đầu Session
+         </button>
+         <button routerLink="/players" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 16px 30px; font-size: 1.1rem; font-weight: 600; border-radius: 16px; cursor: pointer; display: flex; justify-content: center; width: 100%; max-width: 350px; backdrop-filter: blur(12px); transition: background 0.2s; font-family: inherit;">
+           Quản lý Thành viên
+         </button>
+      </div>
+
+    </div>
+  </div>
+  <!-- LEADERBOARD -->
+  <div class="solid-dark-card" style="padding: 30px; max-width: 800px; margin: 0 auto; border-top: 3px solid var(--primary-color); position: relative; overflow: hidden;">
+    <!-- Background Glow -->
+    <div style="position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: rgba(178,216,81,0.1); filter: blur(50px); border-radius: 50%;"></div>
+
+    <h2 style="color: white; border-bottom: 2px dashed rgba(255,255,255,0.1); padding-bottom: 20px; margin-bottom: 25px; text-align: center; font-size: 1.6rem; display: flex; align-items: center; justify-content: center; gap: 12px;">
+      <span style="font-size: 1.8rem; filter: drop-shadow(0 0 5px rgba(255,215,0,0.5));">🏆</span> BẢNG VÀNG THÀNH TÍCH
+    </h2>
+
+    <div *ngIf="playersList.length === 0" style="text-align: center; color: var(--text-light); padding: 40px 20px; font-style: italic;">
+      Chưa có chiến binh nào ghi danh. Hãy tạo Session để bắt đầu!
+    </div>
+
+    <!-- Leaderboard Header -->
+    <div *ngIf="playersList.length > 0" style="display: grid; grid-template-columns: 50px 2fr 1fr 1fr; gap: 10px; padding: 10px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); color: rgba(255,255,255,0.5); font-weight: 600; font-size: 0.85rem; text-transform: uppercase;">
+      <div style="text-align: center;">Hạng</div>
+      <div>Tuyển thủ</div>
+      <div style="text-align: center;">Tỉ lệ thắng</div>
+      <div style="text-align: right;">Điểm số</div>
+    </div>
+
+    <!-- Leaderboard Rows -->
+    <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px;">
+      <div *ngFor="let p of playersList; let i = index" 
+           style="display: grid; grid-template-columns: 50px 2fr 1fr 1fr; gap: 10px; padding: 16px 15px; align-items: center; border-radius: 12px; transition: 0.2s;"
+           [style.background]="i === 0 ? 'linear-gradient(90deg, rgba(255,215,0,0.1) 0%, rgba(255,215,0,0.02) 100%)' : (i === 1 ? 'linear-gradient(90deg, rgba(192,192,192,0.1) 0%, rgba(192,192,192,0.02) 100%)' : (i === 2 ? 'linear-gradient(90deg, rgba(205,127,50,0.1) 0%, rgba(205,127,50,0.02) 100%)' : 'rgba(255,255,255,0.03)'))"
+           [style.border-left]="i === 0 ? '4px solid gold' : (i === 1 ? '4px solid silver' : (i === 2 ? '4px solid #cd7f32' : '4px solid transparent'))"
+           [style.box-shadow]="i === 0 ? '0 4px 15px rgba(255,215,0,0.1)' : 'none'">
+        
+        <!-- Rank Icon/Number -->
+        <div style="text-align: center; font-size: 1.5rem; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">
+          <span *ngIf="i === 0">🥇</span>
+          <span *ngIf="i === 1">🥈</span>
+          <span *ngIf="i === 2">🥉</span>
+          <span *ngIf="i > 2" style="color: rgba(255,255,255,0.3); font-size: 1.2rem;">{{ i + 1 }}</span>
+        </div>
+
+        <!-- Name & Level -->
+        <div style="display: flex; flex-direction: column; gap: 4px;">
+          <div style="font-weight: 700; font-size: 1.15rem; color: white; letter-spacing: 0.5px;">{{ p.name }}</div>
+          <div style="font-size: 0.75rem; color: var(--text-light); text-transform: uppercase; font-weight: 500;">
+            <span style="margin-right: 4px; opacity: 0.8; font-size: 0.8rem;">🔰</span>{{ p.level }}
+          </div>
+        </div>
+
+        <!-- Win Rate -->
+        <div style="text-align: center;">
+          <div [style.background]="p.winRate >= 60 ? 'rgba(178, 216, 81, 0.15)' : 'rgba(255,255,255,0.05)'" [style.color]="p.winRate >= 60 ? 'var(--primary-color)' : 'white'" style="padding: 6px 12px; border-radius: 30px; display: inline-block; font-weight: 700; font-size: 0.95rem;">
+            {{ p.winRate }}%
+          </div>
+        </div>
+
+        <!-- Score & Stats -->
+        <div style="text-align: right; display: flex; flex-direction: column; gap: 4px;">
+          <div style="font-weight: 900; font-size: 1.3rem; color: var(--primary-color);">{{ p.rankingScore }}</div>
+          <div style="font-size: 0.75rem; color: var(--text-light); font-weight: 500;">
+             <span style="color: #4CAF50;">{{ p.totalWins }}W</span><span style="margin: 0 4px; opacity: 0.3;">/</span><span style="color: #F44336;">{{ p.totalLosses }}L</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>

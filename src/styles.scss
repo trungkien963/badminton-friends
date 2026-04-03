@@ -1,0 +1,136 @@
+@use '@angular/material' as mat;
+
+// Custom Variables - Tennis/Badminton Sport Vibe based on user provided image
+:root {
+  --primary-color: #B2D851; // Vibrant neon/lime green
+  --secondary-color: #7DBA45; // Deeper neon green
+  --tertiary-color: #123C2A; // Solid dark green
+  --background-color: #1A5338; // Rich emerald green background
+  --background-gradient: linear-gradient(135deg, #1B5D3F 0%, #0F3120 100%);
+  --surface-color: rgba(255, 255, 255, 0.08); // Glassmorphism surface
+  --surface-dark: #103423; // Solid dark surface
+  --text-dark: #FFFFFF;
+  --text-light: rgba(255, 255, 255, 0.7);
+  --success-color: #B2D851;
+  --error-color: #E74C3C;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+}
+
+/* Global Styles */
+html, body { 
+  min-height: 100%; 
+  margin: 0; 
+  background: var(--background-gradient);
+  background-attachment: fixed;
+  font-family: 'Inter', Roboto, "Helvetica Neue", sans-serif; 
+  color: var(--text-dark);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  margin-top: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Utility Classes */
+.glass-card {
+  background: var(--surface-color);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border-radius: var(--radius-lg);
+  color: #fff;
+}
+
+.solid-dark-card {
+  background: var(--surface-dark);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  border-radius: var(--radius-lg);
+  color: #fff;
+}
+
+.gradient-btn {
+  background: var(--primary-color);
+  color: #0F3120 !important; /* Dark text on bright button */
+  border: none;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  border-radius: var(--radius-md) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(178, 216, 81, 0.4);
+    background: #c3e861;
+  }
+}
+
+.ocean-gradient-btn {
+  background: rgba(255, 255, 255, 0.15); /* Slightly visible glass button */
+  backdrop-filter: blur(4px);
+  color: white !important;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  font-weight: 600;
+  border-radius: var(--radius-md) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.25);
+  }
+}
+
+.text-gradient {
+  /* No more sunset orange gradient, let's make it bright pure white, bold and clean */
+  color: #FFFFFF;
+  text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  font-weight: 800;
+  letter-spacing: 4px;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Angular Material Overrides for the dark sport theme
+.mat-mdc-card {
+  background: var(--surface-color) !important;
+  color: white !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: rgba(0, 0, 0, 0.2) !important;
+}
+.mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::before {
+    border-bottom-color: rgba(255,255,255, 0.4) !important;
+}
+.mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-floating-label, 
+.mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-text-field__input {
+    color: rgba(255,255,255, 0.8) !important;
+}
+
+// Layout helpers
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}

@@ -1,0 +1,31 @@
+.match-layout-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+@media (min-width: 901px) {
+    .match-layout-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        grid-auto-rows: max-content;
+        align-items: start;
+        gap: 30px;
+    }
+
+    .teams-block {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    .stats-block {
+        grid-column: 2;
+        /* If teams block is missing, this naturally shifts up if we omit specific row, 
+           but since CSS grid without implicit placement might act weird, we can just use auto */
+    }
+
+    .timeline-block {
+        grid-column: 1;
+        grid-row: 1 / span 10; /* span multiple rows so right column items can stack naturally */
+    }
+}
