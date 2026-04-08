@@ -59,10 +59,19 @@ export class MatchComponent implements OnInit {
     this.sessionFinalized = false;
   }
 
+  addMoreMatches(count: number = 3) {
+    const participants = this.allPlayers.filter(p => this.selectedPlayers.has(p.id));
+    const extraMatches = this.matchmakingService.generateMatches(participants, count);
+    this.matches = [...this.matches, ...extraMatches];
+    this.targetMatchCount += count;
+  }
+
   resetSession() {
-    this.generated = false;
-    this.sessionFinalized = false;
-    this.matches = [];
+    if(confirm("Bạn có chắc muốn hủy tất cả kết quả và tạo lại lịch đấu từ đầu?")) {
+      this.generated = false;
+      this.sessionFinalized = false;
+      this.matches = [];
+    }
   }
 
   markWinner(matchIndex: number, winningTeam: 1 | 2) {

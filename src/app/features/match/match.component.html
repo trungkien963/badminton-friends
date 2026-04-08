@@ -101,10 +101,11 @@
           </div>
 
           <!-- Team 1 Row -->
-          <div (click)="!m.isCompleted && !sessionFinalized && markWinner(i, 1)"
-               [style.background]="(m.isCompleted && m.scoreTeam1! > m.scoreTeam2!) ? 'rgba(178, 216, 81, 0.15)' : 'transparent'"
-               [style.cursor]="(!m.isCompleted && !sessionFinalized) ? 'pointer' : 'default'"
-               style="padding: 16px 18px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); transition: background 0.2s;">
+          <div class="team-row" 
+               [class.completed]="m.isCompleted" 
+               [class.finalized]="sessionFinalized"
+               [class.team1-win]="m.isCompleted && m.scoreTeam1! > m.scoreTeam2!"
+               (click)="!m.isCompleted && !sessionFinalized && markWinner(i, 1)">
             <div style="display: flex; flex-direction: column;">
               <span style="font-size: 0.75rem; color: var(--text-light); margin-bottom: 4px; text-transform: uppercase;">Đội 1</span>
               <strong style="color: white; font-size: 1.15rem;">{{ m.team1[0]?.name }} <span style="color: var(--primary-color); font-weight: normal; margin: 0 4px;">&</span> {{ m.team1[1]?.name }}</strong>
@@ -113,15 +114,17 @@
             <!-- Status Badge / Action -->
             <div>
               <div *ngIf="m.isCompleted && m.scoreTeam1! > m.scoreTeam2!" style="font-size: 0.9rem; font-weight: bold; color: var(--primary-color); background: rgba(0,0,0,0.4); padding: 6px 12px; border-radius: 6px;">🏆 THẮNG</div>
-              <div *ngIf="!m.isCompleted && !sessionFinalized" style="background: rgba(255,255,255,0.08); padding: 8px 12px; border-radius: 6px; font-size: 0.85rem; color: var(--primary-color); border: 1px dashed rgba(255,255,255,0.3);">👆 Chọn Thắng</div>
+              <div *ngIf="!m.isCompleted && !sessionFinalized" style="background: rgba(255,255,255,0.08); padding: 8px 12px; border-radius: 6px; font-size: 0.85rem; color: var(--primary-color); border: 1px dashed rgba(255,255,255,0.3); transition: 0.2s;">👆 Chọn Thắng</div>
             </div>
           </div>
 
           <!-- Team 2 Row -->
-          <div (click)="!m.isCompleted && !sessionFinalized && markWinner(i, 2)"
-               [style.background]="(m.isCompleted && m.scoreTeam2! > m.scoreTeam1!) ? 'rgba(178, 216, 81, 0.15)' : 'transparent'"
-               [style.cursor]="(!m.isCompleted && !sessionFinalized) ? 'pointer' : 'default'"
-               style="padding: 16px 18px; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s;">
+          <div class="team-row" 
+               [class.completed]="m.isCompleted" 
+               [class.finalized]="sessionFinalized"
+               [class.team2-win]="m.isCompleted && m.scoreTeam2! > m.scoreTeam1!"
+               style="border-bottom: none;"
+               (click)="!m.isCompleted && !sessionFinalized && markWinner(i, 2)">
              <div style="display: flex; flex-direction: column;">
               <span style="font-size: 0.75rem; color: var(--text-light); margin-bottom: 4px; text-transform: uppercase;">Đội 2</span>
               <strong style="color: white; font-size: 1.15rem;">{{ m.team2[0]?.name }} <span style="color: var(--primary-color); font-weight: normal; margin: 0 4px;">&</span> {{ m.team2[1]?.name }}</strong>
@@ -130,10 +133,17 @@
             <!-- Status Badge / Action -->
             <div>
               <div *ngIf="m.isCompleted && m.scoreTeam2! > m.scoreTeam1!" style="font-size: 0.9rem; font-weight: bold; color: var(--primary-color); background: rgba(0,0,0,0.4); padding: 6px 12px; border-radius: 6px;">🏆 THẮNG</div>
-              <div *ngIf="!m.isCompleted && !sessionFinalized" style="background: rgba(255,255,255,0.08); padding: 8px 12px; border-radius: 6px; font-size: 0.85rem; color: var(--primary-color); border: 1px dashed rgba(255,255,255,0.3);">👆 Chọn Thắng</div>
+              <div *ngIf="!m.isCompleted && !sessionFinalized" style="background: rgba(255,255,255,0.08); padding: 8px 12px; border-radius: 6px; font-size: 0.85rem; color: var(--primary-color); border: 1px dashed rgba(255,255,255,0.3); transition: 0.2s;">👆 Chọn Thắng</div>
             </div>
           </div>
 
+        </div>
+
+        <!-- Add More Matches Button -->
+        <div *ngIf="!sessionFinalized" style="display: flex; justify-content: center; margin-top: 10px;">
+          <button (click)="addMoreMatches(3)" class="ocean-gradient-btn" style="padding: 12px 30px; font-size: 1rem; border-radius: 30px; box-shadow: 0 4px 15px rgba(29, 209, 161, 0.3);">
+            ➕ Thêm 3 trận nữa
+          </button>
         </div>
       </div>
 

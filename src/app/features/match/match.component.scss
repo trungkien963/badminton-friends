@@ -4,6 +4,26 @@
     gap: 20px;
 }
 
+.team-row {
+  padding: 16px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.2s, transform 0.2s;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+
+  &:not(.completed):not(.finalized) {
+    cursor: pointer;
+    &:hover {
+      background: rgba(255, 255, 255, 0.05) !important;
+      transform: translateX(4px);
+    }
+  }
+
+  &.team1-win { background: rgba(178, 216, 81, 0.15) !important; }
+  &.team2-win { background: rgba(178, 216, 81, 0.15) !important; }
+}
+
 @media (min-width: 901px) {
     .match-layout-grid {
         display: grid;
@@ -20,12 +40,10 @@
 
     .stats-block {
         grid-column: 2;
-        /* If teams block is missing, this naturally shifts up if we omit specific row, 
-           but since CSS grid without implicit placement might act weird, we can just use auto */
     }
 
     .timeline-block {
         grid-column: 1;
-        grid-row: 1 / span 10; /* span multiple rows so right column items can stack naturally */
+        grid-row: 1 / span 10;
     }
 }
