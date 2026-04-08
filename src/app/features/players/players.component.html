@@ -1,71 +1,92 @@
-<div class="container" style="padding-top: 40px; min-height: 100vh;">
+<div class="container players-page-container">
   
-  <div class="flex-between" style="margin-bottom: 30px;">
+  <div class="header-section">
     <div>
-      <h1 class="text-gradient" style="font-size: 2.5rem; margin-bottom: 5px;">HỘI VIÊN</h1>
-      <h3 style="color: var(--primary-color); font-weight: 500;">Danh sách người chơi</h3>
+      <h1 class="text-gradient">HỘI VIÊN</h1>
+      <h3 class="subtitle">Quản lý danh sách người chơi</h3>
     </div>
-    <div style="display: flex; gap: 10px;">
-      <button (click)="manualSync()" class="ocean-gradient-btn" style="padding: 10px 20px; background: linear-gradient(135deg, #10ac84 0%, #1dd1a1 100%); color: white;">
-        <span style="display: flex; align-items: center; gap: 8px;">☁️ Lưu Lên Mây</span>
+    <div class="header-actions">
+      <button (click)="manualSync()" class="ocean-gradient-btn">
+        <span class="icon-text">☁️ Lưu Lên Mây</span>
       </button>
-      <button routerLink="/" class="ocean-gradient-btn" style="padding: 10px 20px;">
-        <span style="display: flex; align-items: center; gap: 8px;">
-          🏠 Quay lại
-        </span>
+      <button routerLink="/" class="ocean-gradient-btn secondary-btn">
+        <span class="icon-text">🏠 Trang chủ</span>
       </button>
     </div>
   </div>
 
-  <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 30px;">
+  <div class="players-grid">
     
-    <!-- Add Player Form -->
-    <div class="glass-card" style="padding: 30px; height: fit-content;">
-      <h2 style="color: var(--primary-color); border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 25px;">
-        Thêm Người Chơi
+    <!-- Add / Edit Player Form -->
+    <div class="glass-card form-card">
+      <h2>
+        {{ isEditing ? 'Cập Nhật Tuyển Thủ' : 'Thêm Tuyển Thủ Mới' }}
       </h2>
       
-      <div style="margin-bottom: 20px;">
-        <label style="display: block; margin-bottom: 8px; color: var(--text-light); font-size: 0.9rem;">Tên người chơi</label>
-        <input type="text" [(ngModel)]="newPlayerName" 
-               style="width: 100%; padding: 12px 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.2); color: white; outline: none; box-sizing: border-box;" 
-               placeholder="Nhập tên...">
+      <div class="form-group">
+        <label>Tên người chơi</label>
+        <input type="text" [(ngModel)]="newPlayerName" placeholder="Nhập tên...">
       </div>
 
-      <div style="margin-bottom: 30px;">
-        <label style="display: block; margin-bottom: 8px; color: var(--text-light); font-size: 0.9rem;">Trình độ (Seed)</label>
-        <select [(ngModel)]="newPlayerLevel" 
-                style="width: 100%; padding: 12px 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.5); color: white; outline: none; box-sizing: border-box; appearance: none;">
-          <option *ngFor="let lvl of levels" [value]="lvl" style="background: var(--surface-dark);">{{lvl}}</option>
+      <div class="form-group">
+        <label>Trình độ (Ngọc)</label>
+        <select [(ngModel)]="newPlayerLevel">
+          <option *ngFor="let lvl of levels" [value]="lvl">{{lvl}}</option>
         </select>
       </div>
 
-      <button (click)="addPlayer()" class="gradient-btn" style="width: 100%; padding: 14px; font-size: 1.1rem; cursor: pointer;">
-        + Thêm vào danh sách
-      </button>
+      <div class="form-group checkbox-group" *ngIf="isEditing">
+        <label class="switch-label">
+          <input type="checkbox" [(ngModel)]="newPlayerActive">
+          <span class="toggle-text" [class.active-color]="newPlayerActive">
+            {{ newPlayerActive ? '🟢 Đang hoạt động' : '🔴 Ngừng hoạt động (Nghỉ)' }}
+          </span>
+        </label>
+        <small class="helper-text">Hội viên ngừng hoạt động sẽ không bị xóa dữ liệu cũ nhưng không hiện lên Bảng Ưu Tiên Xếp Sân.</small>
+      </div>
+
+      <div class="form-actions">
+        <button (click)="submitPlayer()" class="gradient-btn submit-btn">
+          {{ isEditing ? '💾 Lưu Thông Tin' : '+ Thêm Vào Danh Sách' }}
+        </button>
+        <button *ngIf="isEditing" (click)="cancelEdit()" class="cancel-btn">
+          Hủy Bỏ
+        </button>
+      </div>
     </div>
 
     <!-- Player List -->
-    <div class="solid-dark-card" style="padding: 30px;">
-       <h2 style="color: white; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 25px;">
+    <div class="solid-dark-card list-card">
+       <h2>
         Danh sách hiện tại ({{players.length}})
       </h2>
 
-      <div *ngIf="players.length === 0" style="text-align: center; padding: 40px; color: var(--text-light);">
+      <div *ngIf="players.length === 0" class="empty-state">
         Chưa có người chơi nào. Hãy thêm ở cột bên trái!
       </div>
 
-      <div style="display: flex; flex-direction: column; gap: 15px;">
-        <div *ngFor="let p of players" class="glass-card" style="padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.05); border: none;">
-          <div>
-            <div style="font-size: 1.2rem; font-weight: 600; margin-bottom: 4px;">{{ p.name }}</div>
-            <div style="font-size: 0.8rem; color: var(--primary-color);">
-              {{ p.level }} • Điểm: {{ p.rankingScore }}
+      <div class="player-list-container">
+        <div *ngFor="let p of players" class="glass-card player-item" [class.inactive]="!p.isActive">
+          <div class="player-info">
+            <div class="name-status">
+              <span class="name">{{ p.name }}</span>
+              <span class="status-badge" *ngIf="!p.isActive">Đã Nghỉ</span>
+            </div>
+            <div class="details">
+              ⭐ Tích lũy: {{ p.rankingScore }} điểm | ⚔️ Đã đánh: {{ p.matchesPlayed }} trận
+            </div>
+            <div class="details-level">
+              <span class="lvl-badge">{{ p.level }}</span>
+              <span class="winrate-badge">Tỉ lệ thắng: {{ p.winRate }}%</span>
             </div>
           </div>
-          <div>
-            <button (click)="deletePlayer(p.id)" style="background: rgba(231, 76, 60, 0.2); color: #FF6B6B; border: 1px solid rgba(231, 76, 60, 0.3); padding: 8px 12px; border-radius: 6px; cursor: pointer; transition: 0.2s;">
-              Xóa
+          
+          <div class="player-actions">
+            <button (click)="editPlayer(p)" class="action-btn edit-btn">
+              ✏️ Sửa
+            </button>
+            <button (click)="deletePlayer(p.id)" class="action-btn delete-btn">
+              🗑️ Xóa
             </button>
           </div>
         </div>

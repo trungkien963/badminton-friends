@@ -1,0 +1,302 @@
+.players-page-container {
+  padding-top: 40px;
+  min-height: 100vh;
+  padding-bottom: 50px;
+}
+
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 30px;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .text-gradient {
+    font-size: 2.5rem;
+    margin-bottom: 5px;
+    margin-top: 0;
+  }
+  
+  .subtitle {
+    color: var(--primary-color);
+    font-weight: 500;
+    margin: 0;
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 10px;
+
+    .ocean-gradient-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, #10ac84 0%, #1dd1a1 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: transform 0.2s;
+
+      &:hover { transform: translateY(-2px); }
+
+      .icon-text {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      &.secondary-btn {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: white;
+      }
+    }
+  }
+}
+
+.players-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 30px;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr; // Stack on mobile
+  }
+
+  // Form Card Left
+  .form-card {
+    padding: 30px;
+    height: fit-content;
+
+    h2 {
+      color: var(--primary-color);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding-bottom: 15px;
+      margin-bottom: 25px;
+      margin-top: 0;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--text-light);
+        font-size: 0.9rem;
+      }
+
+      input[type="text"], select {
+        width: 100%;
+        padding: 12px 15px;
+        border-radius: 8px;
+        border: 1px solid rgba(255,255,255,0.2);
+        background: rgba(0,0,0,0.5);
+        color: white;
+        outline: none;
+        box-sizing: border-box;
+        font-size: 1rem;
+        
+        &:focus { border-color: var(--primary-color); }
+      }
+
+      select { appearance: none; }
+    }
+
+    .checkbox-group {
+      .switch-label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        
+        input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary-color); cursor: pointer; }
+        .toggle-text { font-weight: 600; color: #FF6B6B; }
+        .toggle-text.active-color { color: #1dd1a1; }
+      }
+      .helper-text {
+        display: block;
+        margin-top: 8px;
+        color: var(--text-light);
+        font-size: 0.8rem;
+        line-height: 1.4;
+      }
+    }
+
+    .form-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 30px;
+
+      .submit-btn {
+        width: 100%;
+        padding: 14px;
+        font-size: 1.1rem;
+        cursor: pointer;
+      }
+
+      .cancel-btn {
+        width: 100%;
+        padding: 12px;
+        font-size: 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.2s;
+
+        &:hover { background: rgba(255, 255, 255, 0.1); }
+      }
+    }
+  }
+
+  // List Card Right
+  .list-card {
+    padding: 30px;
+
+    @media (max-width: 600px) {
+      padding: 20px 15px; // Less padding on mobile
+    }
+
+    h2 {
+      color: white;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding-bottom: 15px;
+      margin-bottom: 25px;
+      margin-top: 0;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px;
+      color: var(--text-light);
+      font-style: italic;
+    }
+
+    .player-list-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+
+      .player-item {
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.02);
+        transition: transform 0.2s;
+
+        @media (max-width: 600px) {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 15px;
+        }
+
+        &:hover {
+          transform: translateX(5px);
+          background: rgba(255,255,255,0.08);
+        }
+
+        &.inactive {
+          opacity: 0.6;
+          filter: grayscale(80%);
+        }
+
+        .player-info {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+
+          .name-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            .name {
+              font-size: 1.25rem;
+              font-weight: 700;
+              color: white;
+            }
+
+            .status-badge {
+              background: #F44336;
+              color: white;
+              font-size: 0.7rem;
+              padding: 2px 6px;
+              border-radius: 4px;
+              font-weight: 600;
+            }
+          }
+
+          .details {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.6);
+          }
+
+          .details-level {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+
+            .lvl-badge {
+              background: rgba(178, 216, 81, 0.2);
+              color: var(--primary-color);
+              padding: 2px 8px;
+              border-radius: 20px;
+              font-size: 0.75rem;
+              font-weight: 600;
+            }
+
+            .winrate-badge {
+              font-size: 0.8rem;
+              color: var(--text-light);
+            }
+          }
+        }
+
+        .player-actions {
+          display: flex;
+          gap: 10px;
+
+          @media (max-width: 600px) {
+            width: 100%;
+            justify-content: flex-end;
+          }
+
+          .action-btn {
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid transparent;
+
+            &.edit-btn {
+              background: rgba(74, 158, 255, 0.15);
+              color: #4A9EFF;
+              border-color: rgba(74, 158, 255, 0.3);
+
+              &:hover { background: rgba(74, 158, 255, 0.3); }
+            }
+
+            &.delete-btn {
+              background: rgba(231, 76, 60, 0.15);
+              color: #FF6B6B;
+              border-color: rgba(231, 76, 60, 0.3);
+
+              &:hover { background: rgba(231, 76, 60, 0.3); }
+            }
+          }
+        }
+      }
+    }
+  }
+}
