@@ -6,6 +6,7 @@ import { PlayerService } from '../../core/services/player.service';
 import { FeeService } from '../../core/services/fee.service';
 import { Player } from '../../core/models/player.model';
 import { Expense, PlayerFeeStatus } from '../../core/models/fee.model';
+import { UiService } from '../../core/services/ui.service';
 
 interface PlayerFeeRow {
   player: Player;
@@ -27,6 +28,7 @@ interface PlayerFeeRow {
 export class MonthlyFeeComponent implements OnInit {
   private playerService = inject(PlayerService);
   private feeService = inject(FeeService);
+  private uiService = inject(UiService);
 
   players: Player[] = [];
   expenses: Expense[] = [];
@@ -216,7 +218,7 @@ export class MonthlyFeeComponent implements OnInit {
     // Validate custom desc
     if (this.expenseCategory === 'Khác') {
         if (!this.customExpenseDesc.trim()) {
-            alert('Vui lòng nhập chi tiết nội dung chi!');
+            this.uiService.showWarning('Thiếu thông tin', 'Vui lòng nhập chi tiết nội dung chi!');
             return;
         }
         this.newExpense.description = this.customExpenseDesc.trim();
@@ -238,8 +240,12 @@ export class MonthlyFeeComponent implements OnInit {
     this.customExpenseDesc = '';
   }
 
-  deleteExpense(id: string) {
-    if(confirm('Bạn có chắc chắn muốn xoá khoản chi này?')) {
+  async deleteExpense(id: string) {
+    const isConfirmed = await this.uiService.confirm(
+      'Xóa khoản chi',
+      'Bạn có chắc chắn muốn xoá khoản chi này?'
+    );
+    if(isConfirmed) {
         this.feeService.deleteExpense(id);
     }
   }

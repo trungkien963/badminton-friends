@@ -6,6 +6,7 @@ import { PlayerService } from '../../core/services/player.service';
 import { MatchmakingService } from '../../core/services/matchmaking.service';
 import { RankingService } from '../../core/services/ranking.service';
 import { Player, Match } from '../../core/models/player.model';
+import { UiService } from '../../core/services/ui.service';
 
 @Component({
   selector: 'app-match',
@@ -18,6 +19,7 @@ export class MatchComponent implements OnInit {
   private playerService = inject(PlayerService);
   private matchmakingService = inject(MatchmakingService);
   private rankingService = inject(RankingService);
+  private uiService = inject(UiService);
 
   allPlayers: Player[] = [];
   selectedPlayers: Set<string> = new Set();
@@ -50,7 +52,7 @@ export class MatchComponent implements OnInit {
     const participants = this.allPlayers.filter(p => this.selectedPlayers.has(p.id));
     
     if (participants.length < 4 || participants.length > 8) {
-      alert(`Xin lỗi, bạn cần chọn từ 4 đến 8 người chơi! (Bạn đang chọn ${participants.length} người)`);
+      this.uiService.showWarning('Lỗi chọn người', `Xin lỗi, bạn cần chọn từ 4 đến 8 người chơi! (Bạn đang chọn ${participants.length} người)`);
       return;
     }
 
@@ -66,8 +68,12 @@ export class MatchComponent implements OnInit {
     this.targetMatchCount += count;
   }
 
-  resetSession() {
-    if(confirm("Bạn có chắc muốn hủy tất cả kết quả và tạo lại lịch đấu từ đầu?")) {
+  async resetSession() {
+    const isConfirmed = await this.uiService.confirm(
+      'Làm mới lịch đấu',
+      'Bạn có chắc muốn hủy tất cả kết quả và tạo lại lịch đấu từ đầu?'
+    );
+    if(isConfirmed) {
       this.generated = false;
       this.sessionFinalized = false;
       this.matches = [];
@@ -168,7 +174,7 @@ export class MatchComponent implements OnInit {
         this.playerService.updatePlayer(p);
     });
 
-    alert('Đã lưu kết quả buổi cáp kèo và cập nhật Bảng Xếp Hạng thành công!');
+    this.uiService.showSuccess('Hoàn tất!', 'Đã lưu kết quả buổi cáp kèo và cập nhật Bảng Xếp Hạng thành công!');
   }
 
   getEstimatedTimeRange(index: number): string {

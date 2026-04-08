@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { PlayerService } from '../../core/services/player.service';
 import { Player } from '../../core/models/player.model';
+import { UiService } from '../../core/services/ui.service';
 
 @Component({
   selector: 'app-players',
@@ -14,6 +15,7 @@ import { Player } from '../../core/models/player.model';
 })
 export class PlayersComponent implements OnInit {
   private playerService = inject(PlayerService);
+  private uiService = inject(UiService);
   
   players: Player[] = [];
   
@@ -80,29 +82,38 @@ export class PlayersComponent implements OnInit {
     this.newPlayerActive = true;
   }
 
-  deletePlayer(id: string) {
-    if(confirm('Cảnh báo: Hành động này sẽ xoá hoàn toàn tuyển thủ. Nếu người này đã từng chơi, dữ liệu trận đấu có thể bị mất. Bạn nên "Vô hiệu hóa" (Trạng thái Nghỉ) thay vì xóa. Bạn vẫn muốn xóa?')) {
+  async deletePlayer(id: string) {
+    const isConfirmed = await this.uiService.confirm(
+      'Xóa người chơi',
+      'Hành động này sẽ xoá hoàn toàn tuyển thủ. Nếu người này đã từng chơi, dữ liệu trận đấu có thể bị mất. Bạn nên "Vô hiệu hóa" thay vì xóa. Bạn vẫn muốn xóa?',
+      'Xóa',
+      'Hủy'
+    );
+    if (isConfirmed) {
       this.playerService.deletePlayer(id);
+      this.uiService.showSuccess('Đã xóa người chơi thành công!');
     }
   }
 
-  manualSync() {
+  async manualSync() {
     const players = this.playerService.getPlayers();
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxJxRtuHV-JXAkDBFXjJOvpr7w3eoBdU694OPlq-8fKhpHMtoGOu3_-mecvWjNMlB9mUQ/exec';
-    const body = new URLSearchParams();
-    body.set('payload', JSON.stringify({ action: 'SYNC_PLAYERS', players: players }));
     
-    fetch(SCRIPT_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: body.toString()
-    })
-    .then(res => res.text())
-    .then(() => {
-        alert('Đã lưu dữ liệu người chơi thành công lên Mây!');
-    })
-    .catch(err => {
-        alert('Có lỗi khi lưu lên Cloud: ' + err.message);
-    });
+    this.uiService.showLoading('Đang đồng bộ dữ liệu...');
+    
+    try {
+      const body = new URLSearchParams();
+      body.set('payload', JSON.stringify({ action: 'SYNC_PLAYERS', players: players }));
+      
+      await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: body.toString()
+      }).then(res => res.text());
+      
+      this.uiService.showSuccess('Thành công', 'Đã lưu dữ liệu người chơi lên Mây!');
+    } catch (err: any) {
+      this.uiService.showError('Lỗi đồng bộ', err.message);
+    }
   }
 }
