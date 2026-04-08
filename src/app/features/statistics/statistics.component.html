@@ -6,32 +6,168 @@
   </div>
 
   <h1 class="page-title">📊 PHÂN TÍCH & THỐNG KÊ</h1>
-  <p class="subtitle">Biểu đồ hoạt động của các thành viên trong câu lạc bộ</p>
+  <p class="subtitle">Biểu đồ hoạt động và thứ hạng của các thành viên trong câu lạc bộ</p>
+
+  <!-- LEADERBOARD -->
+  <div class="solid-dark-card leaderboard-container" style="margin-bottom: 2rem;">
+    <div class="bg-glow"></div>
+
+    <h2 class="leaderboard-header">
+      <span class="icon">🏆</span> BẢNG VÀNG THÀNH TÍCH TOÀN ĐỘI
+    </h2>
+
+    <div *ngIf="leaderboardPlayers.length === 0" style="text-align: center; color: var(--text-light); padding: 40px 20px; font-style: italic;">
+      Chưa có chiến binh nào ghi danh. Hãy tạo Session để cập nhật điểm ngay!
+    </div>
+
+    <ng-container *ngIf="leaderboardPlayers.length > 0">
+      <!-- Table Header -->
+      <div class="leaderboard-table-header">
+        <div style="text-align: center;">Hạng</div>
+        <div>Tuyển thủ</div>
+        <div style="text-align: center;">Tỉ lệ thắng</div>
+        <div style="text-align: right;">Điểm số</div>
+      </div>
+
+      <!-- Rows -->
+      <div class="leaderboard-list">
+        <div *ngFor="let p of leaderboardPlayers; let i = index" 
+             class="player-row"
+             [ngClass]="{'rank-1': i === 0, 'rank-2': i === 1, 'rank-3': i === 2}">
+          
+          <!-- Rank -->
+          <div class="rank-col">
+            <span *ngIf="i === 0">🥇</span>
+            <span *ngIf="i === 1">🥈</span>
+            <span *ngIf="i === 2">🥉</span>
+            <span *ngIf="i > 2" class="rank-number">{{ i + 1 }}</span>
+          </div>
+
+          <!-- Name & Level -->
+          <div class="info-col">
+            <div class="name" title="{{ p.name }}">{{ p.name }}</div>
+            <div class="level">
+              <span style="opacity: 0.8; font-size: 0.8rem;">🔰</span> {{ p.level }}
+            </div>
+          </div>
+
+          <!-- Win Rate -->
+          <div class="winrate-col">
+            <div class="badge" [ngClass]="p.winRate >= 60 ? 'high' : 'normal'">
+              {{ p.winRate }}%
+            </div>
+          </div>
+
+          <!-- Score & Stats -->
+          <div class="score-col">
+            <div class="score">{{ p.rankingScore }}</div>
+            <div class="stats-min">
+               <span class="win">{{ p.totalWins }}W</span>
+               <span class="loss">{{ p.totalLosses }}L</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </ng-container>
+  </div>
 
   <div class="filter-section">
-    <label> Chọn tháng: </label>
+    <label> Chọn tháng biểu đồ: </label>
     <input type="month" [value]="selectedMonth" (change)="onMonthChange($event)" class="month-picker">
   </div>
 
-  <div class="charts-grid">
-    <div class="chart-card">
-      <h3>Số ngày chơi trong tháng</h3>
-      <div class="chart-wrapper">
-        <canvas #daysChart></canvas>
-      </div>
+  <!-- MONTHLY STATS TABLE -->
+  <div class="solid-dark-card leaderboard-container">
+    <h2 class="leaderboard-header" style="justify-content: flex-start; font-size: 1.3rem;">
+      <span class="icon">📅</span> CHI TIẾT HOẠT ĐỘNG THÁNG
+    </h2>
+
+    <div *ngIf="monthlyStats.length === 0" style="text-align: center; color: var(--text-light); padding: 40px 20px; font-style: italic;">
+      Không có dữ liệu cho tháng này.
     </div>
 
-    <div class="chart-card">
-      <h3>Số trận tham gia theo tháng</h3>
-      <div class="chart-wrapper">
-        <canvas #matchesChart></canvas>
+    <ng-container *ngIf="monthlyStats.length > 0">
+      <!-- Table Header -->
+      <div class="leaderboard-table-header stats-table">
+        <div>Tuyển thủ</div>
+        <div style="text-align: center;">Số ngày</div>
+        <div style="text-align: center;">Trận</div>
+        <div style="text-align: right;">Thắng / Thua</div>
       </div>
+
+      <!-- Rows -->
+      <div class="leaderboard-list">
+        <div *ngFor="let stat of monthlyStats" class="player-row stats-table pointer-row" 
+             style="background: rgba(255,255,255,0.02); cursor: pointer;"
+             (click)="openDetails(stat)">
+          
+          <!-- Name -->
+          <div class="info-col" style="overflow: hidden;">
+            <div class="name" title="{{ stat.player.name }}">{{ stat.player.name }}</div>
+          </div>
+
+          <!-- Days played -->
+          <div style="text-align: center; font-weight: 700; font-size: 1.1rem; color: white;">
+            {{ stat.days }}
+          </div>
+          
+          <!-- Matches played -->
+          <div style="text-align: center; font-weight: 700; font-size: 1.1rem; color: var(--primary-color);">
+            {{ stat.matches }}
+          </div>
+
+          <!-- Win / Loss details -->
+          <div class="score-col">
+            <div class="score" style="font-size: 1rem;"><span style="color: #4CAF50;">{{ stat.wins }}W</span> - <span style="color: #F44336;">{{ stat.losses }}L</span></div>
+            <div class="stats-min" style="color: var(--text-light);">
+               Tỉ lệ: {{ stat.winRate }}%
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<!-- PLAYER DETAILS MODAL -->
+<div class="modal-overlay" *ngIf="selectedPlayerForDetails" (click)="closeDetails()">
+  <div class="modal-content glass-card" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <div class="header-titles">
+        <h2>Lịch Sử Đánh Hàng Ngày</h2>
+        <div class="subtitle" style="color: var(--primary-color); font-weight: 600; font-size: 1.1rem; margin-top: 5px;">
+           Của {{ selectedPlayerForDetails.name }} (Tháng {{ selectedMonth }})
+        </div>
+      </div>
+      <button class="close-btn" (click)="closeDetails()">✖</button>
     </div>
 
-    <div class="chart-card full-width">
-      <h3>Tỉ lệ Thắng / Thua Theo Tháng</h3>
-      <div class="chart-wrapper">
-         <canvas #winLossChart></canvas>
+    <div class="modal-body" style="max-height: 400px; overflow-y: auto; padding-right: 5px;">
+      <div *ngIf="selectedPlayerHistory.length === 0" style="text-align: center; color: var(--text-light); padding: 30px;">
+        Thành viên chưa có lịch sử đánh trong tháng này.
+      </div>
+      
+      <div class="history-list" *ngIf="selectedPlayerHistory.length > 0">
+         <div *ngFor="let record of selectedPlayerHistory" class="history-card" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; margin-bottom: 12px; padding: 15px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <div style="font-weight: 600; font-size: 1.1rem; color: white;">
+                📅 Ngày: {{ record.date | date:'dd/MM/yyyy' }}
+              </div>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+               <div style="color: var(--text-light);">
+                 <span style="display: inline-block; background: rgba(178,216,81,0.2); color: var(--primary-color); padding: 4px 8px; border-radius: 6px; font-weight: 600; margin-right: 10px;">
+                   {{ record.matches }} Trận
+                 </span>
+               </div>
+               <div style="font-size: 1.1rem; font-weight: 700;">
+                 <span style="color: #4CAF50;">{{ record.wins }} Thắng</span> <span style="color: rgba(255,255,255,0.3); margin: 0 5px;">|</span> <span style="color: #F44336;">{{ record.losses }} Thua</span>
+               </div>
+            </div>
+         </div>
       </div>
     </div>
   </div>
