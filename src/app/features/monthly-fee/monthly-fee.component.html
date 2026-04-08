@@ -1,189 +1,230 @@
-<div class="container" style="padding-top: 40px; padding-bottom: 50px; min-height: 100vh;">
+<div class="monthly-fee-container">
   
-  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-    <div>
-      <button routerLink="/dashboard" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 10px 20px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 8px; backdrop-filter: blur(10px);">
-        <span>←</span> Trở về Menu
+  <!-- Header Section -->
+  <header class="page-header">
+    <div class="header-left">
+      <button routerLink="/dashboard" class="btn-back">
+        <span class="icon">←</span> Trở về Menu
       </button>
+      <h1 class="page-title"><span class="emoji">💰</span> TÀI CHÍNH</h1>
     </div>
-    <div style="text-align: right;">
-        <h1 style="margin: 0; font-size: 2.5rem; font-weight: 800; color: white; display: flex; align-items: center; gap: 10px;">
-            <span>💰</span> TÀI CHÍNH
-        </h1>
+    
+    <div class="header-right">
+      <div class="month-selector">
+        <label>Tháng</label>
+        <input type="month" [value]="selectedMonth" (change)="onMonthChange($event)" class="glass-input" />
+      </div>
     </div>
-  </div>
+  </header>
 
-  <!-- Controls -->
-  <div class="solid-dark-card" style="padding: 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-      <div style="display: flex; align-items: center; gap: 15px;">
-          <div style="color: var(--text-light); font-weight: 600;">Chọn tháng:</div>
-          <input type="month" 
-                 [value]="selectedMonth" 
-                 (change)="onMonthChange($event)"
-                 class="custom-input" 
-                 style="width: 200px; padding: 12px 20px;" />
-      </div>
-      <div>
-          <button (click)="showForm = true" class="action-btn" style="background: linear-gradient(135deg, var(--primary-color) 0%, #8cae3a 100%); color: #112B1C;">
-              + Thêm Khoản Chi
-          </button>
-      </div>
-  </div>
-
-  <!-- Stat Cards -->
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 30px;">
-      <div class="solid-dark-card stat-card" style="border-top: 3px solid #FF5722;">
-          <div style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 10px; font-weight: 600;">TỔNG CHI PHÍ THÁNG</div>
-          <div style="font-size: 2.2rem; font-weight: 900; color: white;">{{ totalExpenseAmount | number:'1.0-0' }}đ</div>
+  <!-- Summary Cards -->
+  <section class="summary-cards">
+      <div class="summary-card warning-theme">
+          <div class="card-icon">💸</div>
+          <div class="card-info">
+            <h3 class="card-label">TỔNG CHI PHÍ THÁNG</h3>
+            <p class="card-value">{{ totalExpenseAmount | number:'1.0-0' }}<span class="currency">đ</span></p>
+          </div>
       </div>
       
-      <div class="solid-dark-card stat-card" style="border-top: 3px solid var(--primary-color); position: relative; overflow: hidden;">
-        <div style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 10px; font-weight: 600;">CHI PHÍ / NGÀY / NGƯỜI</div>
-        <div style="font-size: 2.2rem; font-weight: 900; color: var(--primary-color);">{{ costPerDay | number:'1.0-0' }}đ</div>
-      </div>
-  </div>
-
-  <!-- Main Grid -->
-  <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 30px;">
-      <!-- Left: Expenses -->
-      <div class="solid-dark-card" style="padding: 25px;">
-          <h2 style="color: white; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; font-size: 1.4rem;">
-              <span>🧾</span> Lịch Sử Chi Quỹ
-          </h2>
-
-          <div *ngIf="expensesInMonth.length === 0" style="text-align: center; color: var(--text-light); padding: 30px 0; font-style: italic;">
-              Không có khoản chi nào trong tháng này.
-          </div>
-
-          <div style="display: flex; flex-direction: column; gap: 15px;">
-              <div *ngFor="let ex of expensesInMonth" class="expense-item">
-                  <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 5px;">
-                      <div style="font-weight: 700; color: white; display: flex; flex-direction: column;">
-                          <span>{{ ex.description }}</span>
-                          <span style="font-size: 0.8rem; color: #FF9800; font-weight: 600;" *ngIf="ex.payerId !== 'fund'">
-                              Người chi: {{ (players | keyvalue: sortNull) ? getPlayerName(ex.payerId) : '' }}
-                          </span>
-                      </div>
-                      <div style="font-weight: 800; color: #F44336; font-size: 1.1rem;">
-                          -{{ ex.amount | number:'1.0-0' }}đ
-                      </div>
-                  </div>
-                  <div style="display: flex; justify-content: space-between; align-items: center;">
-                      <div style="font-size: 0.8rem; color: var(--text-light);">{{ ex.date }}</div>
-                      <button (click)="deleteExpense(ex.id)" style="background: transparent; border: none; color: #F44336; cursor: pointer; padding: 5px; opacity: 0.6; transition: 0.2s;" class="hover-red">
-                          ✕ Xoá
-                      </button>
-                  </div>
-              </div>
+      <div class="summary-card primary-theme">
+          <div class="card-icon">🧑‍🤝‍🧑</div>
+          <div class="card-info">
+            <h3 class="card-label">CHI PHÍ / NGÀY / NGƯỜI</h3>
+            <p class="card-value highlight">{{ costPerDay | number:'1.0-0' }}<span class="currency">đ</span></p>
           </div>
       </div>
+  </section>
 
+  <!-- Main Content Grid -->
+  <div class="content-grid">
       <!-- Right: Fee Status -->
-      <div class="solid-dark-card" style="padding: 25px; overflow-x: auto;">
-          <h2 style="color: white; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; font-size: 1.4rem;">
-              <span>📊</span> Bảng Tính Tiền Theo Người
-          </h2>
+      <section class="glass-panel fee-panel">
+          <div class="panel-header">
+            <h2 class="panel-title">📊 Bảng Tính Tiền Cước</h2>
+            <span class="panel-subtitle desktop-only">Nhấn vào hàng để xem chi tiết</span>
+            <span class="panel-subtitle mobile-only">Nhấn vào người chơi xem chi tiết</span>
+          </div>
 
-          <div style="min-width: 700px;">
-              <div style="display: grid; grid-template-columns: 1.5fr 0.8fr 1.2fr 1.2fr 1.2fr 1.5fr 1fr; gap: 15px; padding: 10px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--text-light); font-weight: 600; font-size: 0.8rem; text-transform: uppercase;">
-                  <div>Người chơi</div>
-                  <div style="text-align: center;">Số Ngày</div>
-                  <div style="text-align: right;">Cước Phí</div>
-                  <div style="text-align: right; color: #FF9800;">Đã Chi</div>
-                  <div style="text-align: right; color: #9C27B0;">Tồn Đọng</div>
-                  <div style="text-align: right; color: white;">Tổng Phải Đóng</div>
-                  <div style="text-align: center;">Trạng Thái</div>
+          <div class="fee-table">
+              <div class="fee-header desktop-grid desktop-only">
+                  <div class="col-name">Người chơi</div>
+                  <div class="col-center">Trạng Thái</div>
+                  <div class="col-center">Ngày</div>
+                  <div class="col-right">Cước Phí</div>
+                  <div class="col-right">Đã Chi</div>
+                  <div class="col-right">Tồn Đọng</div>
+                  <div class="col-right text-white">Tổng Phải Đóng</div>
               </div>
 
-              <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
-                  <div *ngFor="let row of feeRows" class="fee-row" [class.is-paid]="row.isPaid" [class.owes-money]="!row.isPaid && row.totalOwe > 0">
+              <div class="fee-body">
+                  <div *ngIf="feeRows.length === 0" class="empty-state">
+                      <p>Chưa có dữ liệu thành viên đóng tiền tháng này.</p>
+                  </div>
+
+                  <div *ngFor="let row of feeRows" 
+                       class="fee-row" 
+                       [class.is-paid]="row.isPaid" 
+                       [class.has-debt]="!row.isPaid && row.totalOwe > 0"
+                       (click)="openDetails(row)">
                       
-                      <div style="font-weight: 700; color: white;">
-                          {{ row.player.name }}
-                      </div>
-                      
-                      <div style="text-align: center; color: var(--primary-color); font-weight: 700;">
-                          {{ row.daysPlayed }}
-                      </div>
-                      
-                      <div style="text-align: right; color: rgba(255,255,255,0.7);">
-                          {{ Math.round(row.grossOwe) | number:'1.0-0' }}đ
-                      </div>
+                      <div class="desktop-grid row-content">
+                          <div class="col-name player-info">
+                              <span class="player-name">{{ row.player.name }}</span>
+                              <span class="dept-summary mobile-only" [class.text-danger]="row.totalOwe > 0 && !row.isPaid" [class.text-success]="row.isPaid">
+                                  {{ Math.round(row.totalOwe) | number:'1.0-0' }}đ
+                              </span>
+                          </div>
+                          
+                          <div class="col-center action-wrapper">
+                              <button (click)="togglePayment(row.player.id); $event.stopPropagation()" 
+                                      class="status-pill"
+                                      [class.paid]="row.isPaid"
+                                      [class.unpaid]="!row.isPaid">
+                                  {{ row.isPaid ? '✓ Đã Đóng' : 'Chưa Đóng' }}
+                              </button>
+                          </div>
 
-                      <div style="text-align: right; color: #FF9800; font-weight: 600;">
-                          <span *ngIf="row.deduct > 0">-{{ Math.round(row.deduct) | number:'1.0-0' }}đ</span>
-                          <span *ngIf="row.deduct === 0">-</span>
-                      </div>
+                          <div class="col-center desktop-only">
+                              <span class="highlight-primary">{{ row.daysPlayed }}</span>
+                          </div>
+                          
+                          <div class="col-right desktop-only text-muted">
+                              {{ Math.round(row.grossOwe) | number:'1.0-0' }}đ
+                          </div>
 
-                      <div style="text-align: right; font-weight: 600;" [style.color]="row.carryOver > 0 ? '#F44336' : (row.carryOver < 0 ? '#4CAF50' : 'rgba(255,255,255,0.3)')">
-                          {{ row.carryOver > 0 ? '+' : ''}}{{ row.carryOver === 0 ? '-' : (Math.round(row.carryOver) | number:'1.0-0' + 'đ') }}
-                      </div>
+                          <div class="col-right desktop-only text-warning">
+                              <span *ngIf="row.deduct > 0">-{{ Math.round(row.deduct) | number:'1.0-0' }}đ</span>
+                              <span *ngIf="row.deduct === 0">-</span>
+                          </div>
 
-                      <div style="text-align: right; font-weight: 800; font-size: 1.1rem;" [style.color]="row.totalOwe > 0 ? '#F44336' : (row.totalOwe < 0 ? '#4CAF50' : 'white')">
-                          {{ Math.round(row.totalOwe) | number:'1.0-0' }}đ
-                      </div>
+                          <div class="col-right desktop-only" [ngClass]="row.carryOver > 0 ? 'text-danger' : (row.carryOver < 0 ? 'text-success' : 'text-muted')">
+                              {{ row.carryOver > 0 ? '+' : ''}}{{ row.carryOver === 0 ? '-' : (Math.round(row.carryOver) | number:'1.0-0' + 'đ') }}
+                          </div>
 
-                      <div style="text-align: center;">
-                          <button (click)="togglePayment(row.player.id)" 
-                                  [class.btn-paid]="row.isPaid" 
-                                  [class.btn-unpaid]="!row.isPaid"
-                                  style="padding: 6px 12px; border-radius: 20px; border: none; font-weight: 700; cursor: pointer; transition: 0.3s; font-size: 0.8rem; width: 100px;">
-                              {{ row.isPaid ? '✓ Đã Đóng' : 'Chưa Đóng' }}
-                          </button>
+                          <div class="col-right desktop-only text-xl text-bold" [ngClass]="row.totalOwe > 0 && !row.isPaid ? 'text-danger' : (row.isPaid ? 'text-success' : 'text-white')">
+                              {{ Math.round(row.totalOwe) | number:'1.0-0' }}đ
+                          </div>
                       </div>
-
                   </div>
               </div>
           </div>
-      </div>
-  </div>
+      </section>
 
+      <!-- Left: Expenses History -->
+      <section class="glass-panel expenses-panel">
+          <div class="panel-header">
+            <h2 class="panel-title">📜 Lịch Sử Chi Quỹ</h2>
+            <button (click)="showForm = true" class="btn-primary-sm">+ Thêm</button>
+          </div>
+
+          <div *ngIf="expensesInMonth.length === 0" class="empty-state">
+              <div class="empty-icon">📭</div>
+              <p>Chưa có khoản chi nào trong tháng này.</p>
+          </div>
+
+          <div class="expense-list">
+              <div *ngFor="let ex of expensesInMonth" class="expense-item">
+                  <div class="expense-details">
+                      <h4 class="expense-desc">{{ ex.description }}</h4>
+                      <p class="expense-meta">
+                          <span class="date">{{ ex.date }}</span>
+                          <span class="payer" *ngIf="ex.payerId !== 'fund'">
+                              • Chi bởi: {{ (players | keyvalue: sortNull) ? getPlayerName(ex.payerId) : '' }}
+                          </span>
+                      </p>
+                  </div>
+                  <div class="expense-actions">
+                      <span class="amount expense-amount">-{{ ex.amount | number:'1.0-0' }}đ</span>
+                      <button (click)="deleteExpense(ex.id)" class="btn-icon-danger" title="Xóa">✕</button>
+                  </div>
+              </div>
+          </div>
+      </section>
+  </div>
 </div>
 
-<!-- Create Expense Modal -->
-<div class="overlay-modal" *ngIf="showForm">
-  <div class="solid-dark-card modal-content" style="width: 100%; max-width: 500px; padding: 30px; animation: slideUp 0.3s ease-out; box-sizing: border-box;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px;">
-        <h2 style="color: white; margin: 0; font-size: 1.6rem; display: flex; align-items: center; gap: 10px;">
-          <span>📝</span> Thêm Khoản Chi
-        </h2>
-        <button (click)="showForm = false" style="background: rgba(255,255,255,0.05); border: none; color: white; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s;" class="hover-bg-red">✕</button>
+<!-- Modal: Create Expense -->
+<div class="modal-overlay" *ngIf="showForm">
+  <div class="modal-dialog">
+      <div class="modal-header">
+        <h2><span>📝</span> Thêm Khoản Chi</h2>
+        <button (click)="showForm = false" class="btn-close">✕</button>
       </div>
 
-      <div style="display: flex; flex-direction: column; gap: 20px;">
-          
+      <div class="modal-body">
           <div class="form-group">
-            <label style="color: var(--text-light); font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; display: block;">Nội dung chi</label>
-            <input type="text" [(ngModel)]="newExpense.description" class="custom-input" placeholder="VD: Mua cầu, nước uống..." style="width: 100%;">
+            <label>Nội dung chi</label>
+            <input type="text" [(ngModel)]="newExpense.description" class="glass-input" placeholder="VD: Mua cầu, nước uống...">
           </div>
-
           <div class="form-group">
-            <label style="color: var(--text-light); font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; display: block;">Số tiền (VNĐ)</label>
-            <input type="number" [(ngModel)]="newExpense.amount" class="custom-input" placeholder="0" style="width: 100%; font-size: 1.2rem; font-weight: 700; color: #F44336;">
+            <label>Số tiền (VNĐ)</label>
+            <input type="number" [(ngModel)]="newExpense.amount" class="glass-input input-lg" placeholder="0">
           </div>
-
           <div class="form-group">
-            <label style="color: var(--text-light); font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; display: block;">Người chi (nếu ứng trước)</label>
-            <select [(ngModel)]="newExpense.payerId" class="custom-input" style="width: 100%;">
+            <label>Người chi (nếu ứng trước)</label>
+            <select [(ngModel)]="newExpense.payerId" class="glass-input custom-select">
                 <option value="fund">Trích từ Quỹ Chung (Không ghi nợ ai)</option>
                 <option *ngFor="let p of players" [value]="p.id">{{ p.name }} ứng tiền</option>
             </select>
           </div>
-
           <div class="form-group">
-            <label style="color: var(--text-light); font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; display: block;">Ngày chi</label>
-            <input type="date" [(ngModel)]="newExpense.date" class="custom-input" style="width: 100%;">
+            <label>Ngày chi</label>
+            <input type="date" [(ngModel)]="newExpense.date" class="glass-input">
           </div>
+          <div class="modal-footer">
+              <button (click)="showForm = false" class="btn-cancel">Hủy</button>
+              <button (click)="addExpenseSubmit()" class="btn-submit">Lưu Khoản Chi</button>
+          </div>
+      </div>
+  </div>
+</div>
 
+<!-- Modal: Player Details -->
+<div class="modal-overlay" *ngIf="selectedPlayerDetails">
+  <div class="modal-dialog">
+      <div class="modal-header">
+        <h2><span>👤</span> {{ selectedPlayerDetails.player.name }}</h2>
+        <button (click)="closeDetails()" class="btn-close">✕</button>
       </div>
 
-      <div style="display: flex; gap: 15px; margin-top: 30px;">
-          <button (click)="showForm = false" style="flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 14px; font-size: 1.1rem; border-radius: 12px; cursor: pointer; font-weight: 600; transition: 0.2s;">
-            Hủy
-          </button>
-          <button (click)="addExpenseSubmit()" style="flex: 1; background: linear-gradient(135deg, var(--primary-color) 0%, #8cae3a 100%); border: none; color: #112B1C; padding: 14px; font-size: 1.1rem; font-weight: 800; border-radius: 12px; cursor: pointer; box-shadow: 0 5px 15px rgba(178,216,81,0.2); transition: 0.2s;">
-            Lưu Khoản Chi
-          </button>
+      <div class="modal-body">
+          <div class="detail-row">
+              <span class="label">Trạng thái:</span>
+              <span class="val" [style.color]="selectedPlayerDetails.isPaid ? '#52c41a' : '#ff4d4f'">
+                  {{ selectedPlayerDetails.isPaid ? '✓ Đã Đóng' : '⏳ Chưa Đóng' }}
+              </span>
+          </div>
+          <div class="detail-row">
+              <span class="label">Số ngày chơi:</span>
+              <span class="val highlight-primary">{{ selectedPlayerDetails.daysPlayed }} ngày</span>
+          </div>
+          <div class="detail-row">
+              <span class="label">Cước phí phát sinh:</span>
+              <span class="val">{{ Math.round(selectedPlayerDetails.grossOwe) | number:'1.0-0' }}đ</span>
+          </div>
+          <div class="detail-row">
+              <span class="label">Đã chi hộ quỹ (+):</span>
+              <span class="val text-warning">{{ selectedPlayerDetails.deduct > 0 ? (('-' + Math.round(selectedPlayerDetails.deduct) | number:'1.0-0') + 'đ') : '-' }}</span>
+          </div>
+          <div class="detail-row">
+              <span class="label">Tồn đọng / Nợ cũ:</span>
+              <span class="val" [ngClass]="selectedPlayerDetails.carryOver > 0 ? 'text-danger' : (selectedPlayerDetails.carryOver < 0 ? 'text-success' : 'text-muted')">
+                  {{ selectedPlayerDetails.carryOver > 0 ? '+' : ''}}{{ selectedPlayerDetails.carryOver === 0 ? '-' : (Math.round(selectedPlayerDetails.carryOver) | number:'1.0-0' + 'đ') }}
+              </span>
+          </div>
+          <div class="detail-row total-row">
+              <span class="label">Tổng phải đóng:</span>
+              <span class="val" [ngClass]="selectedPlayerDetails.totalOwe > 0 && !selectedPlayerDetails.isPaid ? 'text-danger' : 'text-white'">
+                  {{ Math.round(selectedPlayerDetails.totalOwe) | number:'1.0-0' }}đ
+              </span>
+          </div>
+          <div class="modal-footer" style="margin-top: 15px;">
+              <button (click)="togglePayment(selectedPlayerDetails.player.id); closeDetails()" 
+                      [class]="selectedPlayerDetails.isPaid ? 'btn-cancel' : 'btn-submit'">
+                  {{ selectedPlayerDetails.isPaid ? 'Hoàn tác (Chưa đóng)' : 'Xác nhận Đã Đóng' }}
+              </button>
+          </div>
       </div>
   </div>
 </div>

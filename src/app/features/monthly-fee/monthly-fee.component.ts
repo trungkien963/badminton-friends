@@ -42,6 +42,7 @@ export class MonthlyFeeComponent implements OnInit {
 
   // Form
   showForm: boolean = false;
+  selectedPlayerDetails: PlayerFeeRow | null = null;
   newExpense: Partial<Expense> = {
     description: '',
     amount: null as any,
@@ -179,6 +180,14 @@ export class MonthlyFeeComponent implements OnInit {
     
     // Sort so unpaid and owes are at top
     this.feeRows.sort((a,b) => b.totalOwe - a.totalOwe);
+  }
+
+  openDetails(row: PlayerFeeRow) {
+      this.selectedPlayerDetails = row;
+  }
+
+  closeDetails() {
+      this.selectedPlayerDetails = null;
   }
 
   addExpenseSubmit() {
