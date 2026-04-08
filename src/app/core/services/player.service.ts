@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
 import { Player } from '../models/player.model';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { GoogleSheetsService } from './google-sheets.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,14 +13,32 @@ export class PlayerService extends StorageService {
   private playersSubject = new BehaviorSubject<Player[]>([]);
   public players$ = this.playersSubject.asObservable();
 
-  constructor() {
+  constructor(private googleSheetsService: GoogleSheetsService) {
     super();
     this.loadPlayers();
+    this.syncFromCloud(); // Pull latest from cloud on load
   }
 
   private loadPlayers(): void {
     const players = this.getItems<Player>(this.PLAYERS_KEY);
     this.playersSubject.next(players);
+  }
+
+  private syncFromCloud(): void {
+    this.googleSheetsService.fetchPlayersFromSheet().subscribe(cloudPlayers => {
+      if (cloudPlayers && cloudPlayers.length > 0) {
+        // Cập nhật Local Storage bằng dữ liệu Cloud mới nhất
+        this.saveItems(this.PLAYERS_KEY, cloudPlayers);
+        this.playersSubject.next(cloudPlayers);
+      }
+    });
+  }
+
+  private syncToCloud(): void {
+    const players = this.getPlayers();
+    this.googleSheetsService.syncPlayersToSheet(players).subscribe(res => {
+      console.log('Đã lưu dữ liệu lên Google Sheets', res);
+    });
   }
 
   getPlayers(): Player[] {
@@ -44,17 +63,20 @@ export class PlayerService extends StorageService {
     const players = [...this.getPlayers(), newPlayer];
     this.saveItems(this.PLAYERS_KEY, players);
     this.playersSubject.next(players);
+    this.syncToCloud();
   }
 
   updatePlayer(updatedPlayer: Player): void {
     const players = this.getPlayers().map(p => p.id === updatedPlayer.id ? updatedPlayer : p);
     this.saveItems(this.PLAYERS_KEY, players);
     this.playersSubject.next(players);
+    this.syncToCloud();
   }
 
   deletePlayer(id: string): void {
     const players = this.getPlayers().filter(p => p.id !== id);
     this.saveItems(this.PLAYERS_KEY, players);
     this.playersSubject.next(players);
+    this.syncToCloud();
   }
 }

@@ -5,11 +5,16 @@
       <h1 class="text-gradient" style="font-size: 2.5rem; margin-bottom: 5px;">HỘI VIÊN</h1>
       <h3 style="color: var(--primary-color); font-weight: 500;">Danh sách người chơi</h3>
     </div>
-    <button routerLink="/" class="ocean-gradient-btn" style="padding: 10px 20px;">
-      <span style="display: flex; align-items: center; gap: 8px;">
-        🏠 Quay lại
-      </span>
-    </button>
+    <div style="display: flex; gap: 10px;">
+      <button (click)="manualSync()" class="ocean-gradient-btn" style="padding: 10px 20px; background: linear-gradient(135deg, #10ac84 0%, #1dd1a1 100%); color: white;">
+        <span style="display: flex; align-items: center; gap: 8px;">☁️ Lưu Lên Mây</span>
+      </button>
+      <button routerLink="/" class="ocean-gradient-btn" style="padding: 10px 20px;">
+        <span style="display: flex; align-items: center; gap: 8px;">
+          🏠 Quay lại
+        </span>
+      </button>
+    </div>
   </div>
 
   <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 30px;">

@@ -43,4 +43,28 @@ export class PlayersComponent implements OnInit {
       this.playerService.deletePlayer(id);
     }
   }
+
+  manualSync() {
+    const players = this.playerService.getPlayers();
+    
+    // Đọc URL từ service (qua 1 trick nhỏ) hoặc gọi báo lưu thủ công
+    // Cách an toàn hơn: dùng chính API gốc đã được fix
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxJxRtuHV-JXAkDBFXjJOvpr7w3eoBdU694OPlq-8fKhpHMtoGOu3_-mecvWjNMlB9mUQ/exec';
+    const body = new URLSearchParams();
+    body.set('payload', JSON.stringify({ action: 'SYNC_PLAYERS', players: players }));
+    
+    fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: body.toString()
+    })
+    .then(res => res.text())
+    .then(() => {
+        alert('Đã lưu dữ liệu người chơi thành công lên Google Sheets!');
+    })
+    .catch(err => {
+        alert('Có lỗi khi lưu lên Cloud: ' + err.message);
+    });
+  }
 }
+
