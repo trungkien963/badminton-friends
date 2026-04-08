@@ -68,4 +68,54 @@ export class GoogleSheetsService {
       })
     );
   }
+  /**
+   * Đồng bộ toàn bộ dữ liệu Tài Chính lên Google Sheet
+   */
+  syncFinanceToSheet(expenses: any[], feeStatus: any[]): Observable<any> {
+    if (!this.SCRIPT_URL || this.SCRIPT_URL.includes('YOUR_WEB_APP_URL_HERE')) {
+      return of({ success: false, message: 'Chưa cấu hình Google Script URL' });
+    }
+
+    const payload = {
+      action: 'SYNC_FINANCE',
+      expenses: expenses,
+      feeStatus: feeStatus
+    };
+
+    const body = new URLSearchParams();
+    body.set('payload', JSON.stringify(payload));
+
+    return this.http.post(this.SCRIPT_URL, body.toString(), {
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      responseType: 'text'
+    }).pipe(
+      catchError(err => {
+        console.error('Google Sheets Finance Sync Error:', err);
+        return of({ success: false, error: err });
+      })
+    );
+  }
+
+  /**
+   * Tải toàn bộ dữ liệu Tài Chính từ Google Sheet xuống
+   */
+  fetchFinanceFromSheet(): Observable<{ expenses: any[], feeStatus: any[] }> {
+    if (!this.SCRIPT_URL || this.SCRIPT_URL.includes('YOUR_WEB_APP_URL_HERE')) {
+      return of({ expenses: [], feeStatus: [] });
+    }
+
+    return this.http.get<any>(`${this.SCRIPT_URL}?action=GET_FINANCE`).pipe(
+      map(res => {
+        if (!res) return { expenses: [], feeStatus: [] };
+        return {
+          expenses: Array.isArray(res.expenses) ? res.expenses : [],
+          feeStatus: Array.isArray(res.feeStatus) ? res.feeStatus : []
+        };
+      }),
+      catchError(err => {
+        console.error('Google Sheets Finance Fetch Error:', err);
+        return of({ expenses: [], feeStatus: [] });
+      })
+    );
+  }
 }
