@@ -1,0 +1,38 @@
+<div class="statistics-container">
+  <div class="header-actions">
+    <button routerLink="/dashboard" class="back-btn">
+      <span style="margin-right: 8px;">←</span> Về Dashboard
+    </button>
+  </div>
+
+  <h1 class="page-title">📊 PHÂN TÍCH & THỐNG KÊ</h1>
+  <p class="subtitle">Biểu đồ hoạt động của các thành viên trong câu lạc bộ</p>
+
+  <div class="filter-section">
+    <label> Chọn tháng: </label>
+    <input type="month" [value]="selectedMonth" (change)="onMonthChange($event)" class="month-picker">
+  </div>
+
+  <div class="charts-grid">
+    <div class="chart-card">
+      <h3>Số ngày chơi trong tháng</h3>
+      <div class="chart-wrapper">
+        <canvas #daysChart></canvas>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <h3>Số trận tham gia theo tháng</h3>
+      <div class="chart-wrapper">
+        <canvas #matchesChart></canvas>
+      </div>
+    </div>
+
+    <div class="chart-card full-width">
+      <h3>Tỉ lệ Thắng / Thua Theo Tháng</h3>
+      <div class="chart-wrapper">
+         <canvas #winLossChart></canvas>
+      </div>
+    </div>
+  </div>
+</div>

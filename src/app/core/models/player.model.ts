@@ -10,6 +10,7 @@ export interface Player {
   level: 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert'; // Just roughly based on logic
   isActive: boolean;
   historySetsResting?: number; // Used to track resting sets for <6 player condition
+  playHistory?: string; // JSON string "[]" storing date history mappings for 1 column
 }
 
 export interface Match {

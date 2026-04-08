@@ -127,8 +127,35 @@ export class MatchComponent implements OnInit {
     const participants = this.allPlayers.filter(p => this.selectedPlayers.has(p.id));
     const updatedPlayers = this.rankingService.calculateRankings(participants, this.matches);
     
+    // Get stats from this session to save into playHistory
+    const todayStr = new Date().toISOString().slice(0, 10);
+    const todayStats = this.getTodayStats();
+
     // Update players in storage
     updatedPlayers.forEach(p => {
+        const stats = todayStats.find(s => s.player.id === p.id);
+        if (stats) {
+            let history: { date: string, matches: number, wins: number, losses: number }[] = [];
+            if (p.playHistory) {
+                try {
+                    history = JSON.parse(p.playHistory);
+                } catch(e) {}
+            }
+            const existingDay = history.find(h => h.date === todayStr);
+            if (existingDay) {
+                existingDay.matches += stats.played;
+                existingDay.wins += stats.wins;
+                existingDay.losses += stats.losses;
+            } else {
+                history.push({
+                   date: todayStr,
+                   matches: stats.played,
+                   wins: stats.wins,
+                   losses: stats.losses
+                });
+            }
+            p.playHistory = JSON.stringify(history);
+        }
         this.playerService.updatePlayer(p);
     });
 

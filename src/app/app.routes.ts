@@ -7,5 +7,6 @@ export const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'players', component: PlayersComponent },
-  { path: 'match', component: MatchComponent }
+  { path: 'match', component: MatchComponent },
+  { path: 'statistics', loadComponent: () => import('./features/statistics/statistics.component').then(m => m.StatisticsComponent) }
 ];
