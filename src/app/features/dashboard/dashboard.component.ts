@@ -13,12 +13,16 @@ import { Player } from '../../core/models/player.model';
 })
 export class DashboardComponent implements OnInit {
   private playerService = inject(PlayerService);
-  playersList: Player[] = [];
+  totalMembers: number = 0;
+  topPlayers: Player[] = [];
 
   ngOnInit() {
     this.playerService.players$.subscribe(data => {
       // Sort players by ranking score descending
-      this.playersList = [...data].sort((a, b) => b.rankingScore - a.rankingScore);
+      const sorted = [...data].sort((a, b) => b.rankingScore - a.rankingScore);
+      this.totalMembers = sorted.length;
+      // Get only top 5 for the dashboard to keep it concise
+      this.topPlayers = sorted.slice(0, 5);
     });
   }
 }

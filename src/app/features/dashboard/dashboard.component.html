@@ -5,7 +5,16 @@
     
     <div class="hero-content">
       <div class="glow-orb"></div>
-      <div class="hero-badge">🏸 Badminton Club</div>
+      
+      <!-- Quick Stats / Badges -->
+      <div style="display: flex; gap: 10px; flex-wrap: wrap; z-index: 1;">
+        <div class="hero-badge">🏸 Badminton Club</div>
+        <div class="hero-badge overview-badge">
+          <span style="opacity: 0.8;">Thành viên:</span> 
+          <span style="color: white; margin-left: 4px;">{{ totalMembers }}</span>
+        </div>
+      </div>
+      
       <h1 class="hero-title">MATCHMAKING <br><span class="highlight">HUB</span></h1>
       <p class="hero-subtitle">Nền tảng quản lý thành viên, tài chính và theo dõi thông số, thành tích sân đấu một cách thông minh, hiện đại.</p>
     </div>
@@ -55,14 +64,14 @@
     <div class="bg-glow"></div>
 
     <h2 class="leaderboard-header">
-      <span class="icon">🏆</span> BẢNG VÀNG THÀNH TÍCH
+      <span class="icon">🏆</span> BẢNG VÀNG THÀNH TÍCH (TOP 5)
     </h2>
 
-    <div *ngIf="playersList.length === 0" style="text-align: center; color: var(--text-light); padding: 40px 20px; font-style: italic;">
+    <div *ngIf="topPlayers.length === 0" style="text-align: center; color: var(--text-light); padding: 40px 20px; font-style: italic;">
       Chưa có chiến binh nào ghi danh. Hãy tạo Session để cập nhật điểm ngay!
     </div>
 
-    <ng-container *ngIf="playersList.length > 0">
+    <ng-container *ngIf="topPlayers.length > 0">
       <!-- Table Header -->
       <div class="leaderboard-table-header">
         <div style="text-align: center;">Hạng</div>
@@ -73,7 +82,7 @@
 
       <!-- Rows -->
       <div class="leaderboard-list">
-        <div *ngFor="let p of playersList; let i = index" 
+        <div *ngFor="let p of topPlayers; let i = index" 
              class="player-row"
              [ngClass]="{'rank-1': i === 0, 'rank-2': i === 1, 'rank-3': i === 2}">
           
@@ -111,6 +120,15 @@
 
         </div>
       </div>
+
+      <!-- View All Button -->
+      <div class="view-all-container">
+        <button routerLink="/statistics" class="view-all-btn">
+          Xem toàn bộ Bảng Xếp Hạng
+          <span style="margin-left: 5px;">→</span>
+        </button>
+      </div>
+
     </ng-container>
     
   </div>

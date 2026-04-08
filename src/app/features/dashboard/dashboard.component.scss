@@ -86,6 +86,7 @@
 
   @media (max-width: 600px) {
     grid-template-columns: 1fr;
+    gap: 12px;
   }
 }
 
@@ -102,6 +103,13 @@
   position: relative;
   overflow: hidden;
   backdrop-filter: blur(10px);
+
+  @media (max-width: 600px) {
+    flex-direction: row;
+    align-items: center;
+    padding: 12px 16px;
+    gap: 16px;
+  }
 
   &.primary {
     background: linear-gradient(135deg, rgba(178,216,81,0.15) 0%, rgba(178,216,81,0.05) 100%);
@@ -143,9 +151,19 @@
     justify-content: center;
     border-radius: var(--radius-md);
     border: 1px solid rgba(255,255,255,0.05);
+    flex-shrink: 0;
+
+    @media (max-width: 600px) {
+      width: 48px;
+      height: 48px;
+      font-size: 1.4rem;
+      border-radius: var(--radius-sm);
+    }
   }
 
   .card-info {
+    flex-grow: 1;
+
     h3 {
       font-size: 1.15rem;
       font-weight: 700;
@@ -153,6 +171,11 @@
       margin: 0 0 0.5rem 0;
       text-transform: none;
       letter-spacing: normal;
+      
+      @media (max-width: 600px) {
+        font-size: 1.05rem;
+        margin: 0 0 0.2rem 0;
+      }
     }
 
     p {
@@ -160,6 +183,10 @@
       font-size: 0.9rem;
       margin: 0;
       line-height: 1.4;
+
+      @media (max-width: 600px) {
+        font-size: 0.8rem;
+      }
     }
   }
 }
@@ -225,6 +252,35 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
+  }
+
+  .view-all-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px dashed rgba(255,255,255,0.1);
+  }
+
+  .view-all-btn {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      background: rgba(178,216,81,0.15);
+      border-color: var(--primary-color);
+      color: var(--primary-color);
+      transform: translateY(-2px);
+    }
   }
 
   .player-row {
