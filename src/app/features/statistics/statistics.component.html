@@ -136,37 +136,45 @@
   <div class="modal-content glass-card" (click)="$event.stopPropagation()">
     <div class="modal-header">
       <div class="header-titles">
-        <h2>Lịch Sử Đánh Hàng Ngày</h2>
-        <div class="subtitle" style="color: var(--primary-color); font-weight: 600; font-size: 1.1rem; margin-top: 5px;">
-           Của {{ selectedPlayerForDetails.name }} (Tháng {{ selectedMonth }})
+        <h2>LỊCH SỬ ĐÁNH</h2>
+        <div class="subtitle">
+           <span class="player-name">{{ selectedPlayerForDetails.name }}</span>
+           <span class="month-badge">Tháng {{ selectedMonth }}</span>
         </div>
       </div>
       <button class="close-btn" (click)="closeDetails()">✖</button>
     </div>
 
-    <div class="modal-body" style="max-height: 400px; overflow-y: auto; padding-right: 5px;">
-      <div *ngIf="selectedPlayerHistory.length === 0" style="text-align: center; color: var(--text-light); padding: 30px;">
+    <div class="modal-body custom-scrollbar">
+      <div *ngIf="selectedPlayerHistory.length === 0" class="empty-state">
         Thành viên chưa có lịch sử đánh trong tháng này.
       </div>
       
       <div class="history-list" *ngIf="selectedPlayerHistory.length > 0">
-         <div *ngFor="let record of selectedPlayerHistory" class="history-card" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; margin-bottom: 12px; padding: 15px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-              <div style="font-weight: 600; font-size: 1.1rem; color: white;">
-                📅 Ngày: {{ record.date | date:'dd/MM/yyyy' }}
+         <div *ngFor="let record of selectedPlayerHistory" class="history-card">
+            
+            <div class="card-top">
+              <div class="date-badge">
+                <span class="icon">📅</span> 
+                {{ record.date | date:'dd/MM/yyyy' }}
+              </div>
+              <div class="match-count">
+                ⚔️ {{ record.matches }} Trận
               </div>
             </div>
             
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-               <div style="color: var(--text-light);">
-                 <span style="display: inline-block; background: rgba(178,216,81,0.2); color: var(--primary-color); padding: 4px 8px; border-radius: 6px; font-weight: 600; margin-right: 10px;">
-                   {{ record.matches }} Trận
-                 </span>
+            <div class="card-bottom">
+               <div class="stat-box win">
+                 <span class="number">{{ record.wins }}</span>
+                 <span class="label">Thắng</span>
                </div>
-               <div style="font-size: 1.1rem; font-weight: 700;">
-                 <span style="color: #4CAF50;">{{ record.wins }} Thắng</span> <span style="color: rgba(255,255,255,0.3); margin: 0 5px;">|</span> <span style="color: #F44336;">{{ record.losses }} Thua</span>
+               <div class="divider"></div>
+               <div class="stat-box loss">
+                 <span class="number">{{ record.losses }}</span>
+                 <span class="label">Thua</span>
                </div>
             </div>
+
          </div>
       </div>
     </div>

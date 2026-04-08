@@ -308,36 +308,186 @@
 }
 
 .modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 20px;
-  border-bottom: 1px dashed rgba(255,255,255,0.1);
-  padding-bottom: 15px;
+  position: relative;
+  text-align: center;
+  margin-bottom: 25px;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+  padding-bottom: 20px;
 
-  h2 {
-    margin: 0;
-    font-size: 1.4rem;
-    color: white;
+  .header-titles {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+
+    h2 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .subtitle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      .player-name {
+        color: var(--primary-color);
+        font-weight: 700;
+        font-size: 1.1rem;
+      }
+
+      .month-badge {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.8);
+      }
+    }
   }
 
   .close-btn {
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
+    position: absolute;
+    top: -5px;
+    right: 0;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     color: white;
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
+    font-size: 1rem;
     transition: all 0.2s;
 
     &:hover {
-      background: rgba(244, 67, 54, 0.8);
-      transform: scale(1.1);
+      background: rgba(244, 67, 54, 0.2);
+      border-color: #F44336;
+      color: #F44336;
+      transform: scale(1.1) rotate(90deg);
+    }
+  }
+}
+
+.modal-body {
+  max-height: 450px;
+  overflow-y: auto;
+  padding-right: 5px;
+
+  &.custom-scrollbar {
+    &::-webkit-scrollbar { width: 6px; }
+    &::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.1); border-radius: 4px; }
+    &::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 4px; }
+    &::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.3); }
+  }
+
+  .empty-state {
+    text-align: center;
+    color: var(--text-light);
+    padding: 40px 20px;
+    font-style: italic;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 12px;
+  }
+
+  .history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .history-card {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 16px;
+    transition: transform 0.2s, background 0.2s;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.03);
+      transform: translateY(-2px);
+      border-color: rgba(178, 216, 81, 0.2);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+
+      .date-badge {
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+
+        .icon { opacity: 0.8; }
+      }
+
+      .match-count {
+        background: rgba(178, 216, 81, 0.15);
+        color: var(--primary-color);
+        padding: 4px 10px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.9rem;
+      }
+    }
+
+    .card-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 12px;
+      padding: 12px;
+      gap: 20px;
+
+      .divider {
+        width: 1px;
+        height: 30px;
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .stat-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+
+        .number {
+          font-size: 1.4rem;
+          font-weight: 900;
+          line-height: 1;
+          margin-bottom: 4px;
+        }
+
+        .label {
+          font-size: 0.75rem;
+          text-transform: uppercase;
+          font-weight: 600;
+          letter-spacing: 0.5px;
+        }
+
+        &.win {
+          .number { color: #4CAF50; }
+          .label { color: rgba(76, 175, 80, 0.7); }
+        }
+
+        &.loss {
+          .number { color: #F44336; }
+          .label { color: rgba(244, 67, 54, 0.7); }
+        }
+      }
     }
   }
 }
