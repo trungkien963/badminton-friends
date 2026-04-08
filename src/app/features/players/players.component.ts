@@ -18,6 +18,8 @@ export class PlayersComponent implements OnInit {
   private uiService = inject(UiService);
   
   players: Player[] = [];
+  isLoading: boolean = true;
+  skeletonArray = [1, 2, 3, 4, 5];
   
   // Form State
   newPlayerName: string = '';
@@ -32,6 +34,9 @@ export class PlayersComponent implements OnInit {
   ngOnInit(): void {
     this.playerService.players$.subscribe(data => {
       this.players = data.sort((a,b) => b.rankingScore - a.rankingScore); 
+    });
+    this.playerService.isLoading$.subscribe(loading => {
+      this.isLoading = loading;
     });
   }
 

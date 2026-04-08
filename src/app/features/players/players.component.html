@@ -61,11 +61,21 @@
         Danh sách hiện tại ({{players.length}})
       </h2>
 
-      <div *ngIf="players.length === 0" class="empty-state">
+      <div *ngIf="isLoading" class="player-list-container">
+        <div class="skeleton-row" *ngFor="let _ of skeletonArray">
+          <div class="skeleton-box skel-avatar" style="border-radius: 8px;"></div>
+          <div class="skel-content">
+            <div class="skeleton-box skel-text-lg"></div>
+            <div class="skeleton-box skel-text-sm"></div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="!isLoading && players.length === 0" class="empty-state">
         Chưa có người chơi nào. Hãy thêm ở cột bên trái!
       </div>
 
-      <div class="player-list-container">
+      <div *ngIf="!isLoading && players.length > 0" class="player-list-container">
         <div *ngFor="let p of players" class="glass-card player-item" [class.inactive]="!p.isActive">
           <div class="player-info">
             <div class="name-status">

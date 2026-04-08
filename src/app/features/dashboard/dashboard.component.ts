@@ -15,6 +15,8 @@ export class DashboardComponent implements OnInit {
   private playerService = inject(PlayerService);
   totalMembers: number = 0;
   topPlayers: Player[] = [];
+  isLoading: boolean = true;
+  skeletonArray = [1, 2, 3, 4];
 
   ngOnInit() {
     this.playerService.players$.subscribe(data => {
@@ -23,6 +25,10 @@ export class DashboardComponent implements OnInit {
       this.totalMembers = sorted.length;
       // Get only top 5 for the dashboard to keep it concise
       this.topPlayers = sorted.slice(0, 5);
+    });
+
+    this.playerService.isLoading$.subscribe(loading => {
+      this.isLoading = loading;
     });
   }
 }

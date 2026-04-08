@@ -13,6 +13,9 @@ export class PlayerService extends StorageService {
   private playersSubject = new BehaviorSubject<Player[]>([]);
   public players$ = this.playersSubject.asObservable();
 
+  private isLoadingSubject = new BehaviorSubject<boolean>(true);
+  public isLoading$ = this.isLoadingSubject.asObservable();
+
   constructor(private googleSheetsService: GoogleSheetsService) {
     super();
     this.loadPlayers();
@@ -25,11 +28,18 @@ export class PlayerService extends StorageService {
   }
 
   private syncFromCloud(): void {
-    this.googleSheetsService.fetchPlayersFromSheet().subscribe(cloudPlayers => {
-      if (cloudPlayers && cloudPlayers.length > 0) {
-        // Cập nhật Local Storage bằng dữ liệu Cloud mới nhất
-        this.saveItems(this.PLAYERS_KEY, cloudPlayers);
-        this.playersSubject.next(cloudPlayers);
+    this.isLoadingSubject.next(true);
+    this.googleSheetsService.fetchPlayersFromSheet().subscribe({
+      next: (cloudPlayers) => {
+        if (cloudPlayers && cloudPlayers.length > 0) {
+          // Cập nhật Local Storage bằng dữ liệu Cloud mới nhất
+          this.saveItems(this.PLAYERS_KEY, cloudPlayers);
+          this.playersSubject.next(cloudPlayers);
+        }
+        setTimeout(() => this.isLoadingSubject.next(false), 800);
+      },
+      error: () => {
+        setTimeout(() => this.isLoadingSubject.next(false), 800);
       }
     });
   }
