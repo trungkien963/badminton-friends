@@ -46,9 +46,31 @@ export class MonthlyFeeComponent implements OnInit {
   newExpense: Partial<Expense> = {
     description: '',
     amount: null as any,
-    payerId: '',
+    payerId: 'fund',
     date: new Date().toISOString().split('T')[0]
   };
+
+  // Form State
+  displayAmount: string = '';
+  expenseCategory: string = 'Mua cầu';
+  customExpenseDesc: string = '';
+
+  onAmountChange(val: string) {
+    if (!val) {
+      this.displayAmount = '';
+      this.newExpense.amount = null as any;
+      return;
+    }
+    // Remove non-digit characters
+    const numericStr = val.replace(/\D/g, '');
+    if (numericStr) {
+       this.newExpense.amount = parseInt(numericStr, 10);
+       this.displayAmount = new Intl.NumberFormat('vi-VN').format(this.newExpense.amount);
+    } else {
+       this.displayAmount = '';
+       this.newExpense.amount = null as any;
+    }
+  }
 
   ngOnInit() {
     this.playerService.players$.subscribe(data => {
@@ -191,15 +213,29 @@ export class MonthlyFeeComponent implements OnInit {
   }
 
   addExpenseSubmit() {
+    // Validate custom desc
+    if (this.expenseCategory === 'Khác') {
+        if (!this.customExpenseDesc.trim()) {
+            alert('Vui lòng nhập chi tiết nội dung chi!');
+            return;
+        }
+        this.newExpense.description = this.customExpenseDesc.trim();
+    } else {
+        this.newExpense.description = this.expenseCategory;
+    }
+
     if (!this.newExpense.description || !this.newExpense.amount) return;
     this.feeService.addExpense(this.newExpense);
     this.showForm = false;
     this.newExpense = {
         description: '',
         amount: null as any,
-        payerId: '',
+        payerId: 'fund',
         date: new Date().toISOString().split('T')[0]
     };
+    this.displayAmount = '';
+    this.expenseCategory = 'Mua cầu';
+    this.customExpenseDesc = '';
   }
 
   deleteExpense(id: string) {

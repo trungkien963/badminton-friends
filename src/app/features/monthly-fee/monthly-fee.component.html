@@ -155,17 +155,23 @@
       <div class="modal-body">
           <div class="form-group">
             <label>Nội dung chi</label>
-            <input type="text" [(ngModel)]="newExpense.description" class="glass-input" placeholder="VD: Mua cầu, nước uống...">
+            <select [(ngModel)]="expenseCategory" class="glass-input custom-select">
+                <option value="Mua cầu">Mua cầu</option>
+                <option value="Tiền sân">Tiền sân</option>
+                <option value="Nước uống">Nước uống</option>
+                <option value="Khác">Khác...</option>
+            </select>
+            <input *ngIf="expenseCategory === 'Khác'" type="text" [(ngModel)]="customExpenseDesc" class="glass-input" placeholder="Ghi rỏ chi tiết..." style="margin-top: 10px;">
           </div>
           <div class="form-group">
             <label>Số tiền (VNĐ)</label>
-            <input type="number" [(ngModel)]="newExpense.amount" class="glass-input input-lg" placeholder="0">
+            <input type="text" [ngModel]="displayAmount" (ngModelChange)="onAmountChange($event)" class="glass-input input-lg" placeholder="0">
           </div>
           <div class="form-group">
             <label>Người chi (nếu ứng trước)</label>
             <select [(ngModel)]="newExpense.payerId" class="glass-input custom-select">
-                <option value="fund">Trích từ Quỹ Chung (Không ghi nợ ai)</option>
-                <option *ngFor="let p of players" [value]="p.id">{{ p.name }} ứng tiền</option>
+                <option value="fund">Quỹ Chung</option>
+                <option *ngFor="let p of players" [value]="p.id">{{ p.name }}</option>
             </select>
           </div>
           <div class="form-group">
