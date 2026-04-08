@@ -1,0 +1,121 @@
+.stat-card {
+    padding: 25px;
+    transition: transform 0.2s;
+    &:hover {
+        transform: translateY(-5px);
+    }
+}
+
+.expense-item {
+    padding: 15px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 12px;
+    border-left: 3px solid #F44336;
+    transition: 0.2s;
+    &:hover {
+        background: rgba(255,255,255,0.06);
+    }
+}
+
+.fee-row {
+    display: grid; 
+    grid-template-columns: 1.5fr 0.8fr 1.2fr 1.2fr 1.2fr 1.5fr 1fr; 
+    gap: 15px; 
+    padding: 15px; 
+    align-items: center; 
+    background: rgba(255,255,255,0.02);
+    border-radius: 12px;
+    transition: 0.2s;
+    border-left: 3px solid transparent;
+
+    &:hover {
+        background: rgba(255,255,255,0.05);
+    }
+
+    &.owes-money {
+        border-left: 3px solid #F44336;
+        background: rgba(244, 67, 54, 0.05);
+    }
+
+    &.is-paid {
+        border-left: 3px solid #4CAF50;
+        background: rgba(76, 175, 80, 0.05);
+        opacity: 0.7;
+    }
+}
+
+.btn-paid {
+    background: rgba(76, 175, 80, 0.2);
+    color: #4CAF50;
+    border: 1px solid rgba(76, 175, 80, 0.5) !important;
+    &:hover {
+        background: rgba(76, 175, 80, 0.4);
+    }
+}
+
+.btn-unpaid {
+    background: rgba(244, 67, 54, 0.2);
+    color: #F44336;
+    border: 1px solid rgba(244, 67, 54, 0.5) !important;
+    &:hover {
+        background: rgba(244, 67, 54, 0.4);
+    }
+}
+
+.hover-red:hover {
+    color: #F44336 !important;
+    opacity: 1 !important;
+    transform: scale(1.1);
+}
+
+.hover-bg-red:hover {
+    background: #F44336 !important;
+    color: white !important;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.overlay-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.custom-input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: 0.2s;
+    box-sizing: border-box;
+    
+    &:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    &::placeholder {
+        color: rgba(255, 255, 255, 0.3);
+    }
+}
+
+select.custom-input option {
+    background: #112B1C;
+    color: white;
+}

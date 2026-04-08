@@ -8,5 +8,6 @@ export const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'players', component: PlayersComponent },
   { path: 'match', component: MatchComponent },
+  { path: 'monthly-fee', loadComponent: () => import('./features/monthly-fee/monthly-fee.component').then(m => m.MonthlyFeeComponent) },
   { path: 'statistics', loadComponent: () => import('./features/statistics/statistics.component').then(m => m.StatisticsComponent) }
 ];
