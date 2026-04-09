@@ -34,7 +34,7 @@ export class PlayerService extends StorageService {
     this.isLoadingSubject.next(true);
     this.googleSheetsService.fetchPlayersFromSheet().subscribe({
       next: (cloudPlayers) => {
-        if (cloudPlayers && cloudPlayers.length > 0) {
+        if (cloudPlayers && Array.isArray(cloudPlayers)) {
           // Khởi tạo lại điểm theo công thức mới nhất để bảng vàng/dashboard update tức thì
           cloudPlayers.forEach(p => {
             if (p.matchesPlayed > 0) {

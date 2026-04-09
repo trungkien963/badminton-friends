@@ -57,7 +57,7 @@ export class FeeService extends StorageService {
            return isMonthOnly ? `${yr}-${mo}` : `${yr}-${mo}-${dt}`;
         };
 
-        if (res.expenses && res.expenses.length > 0) {
+        if (res.expenses && Array.isArray(res.expenses)) {
            const mappedExpenses = res.expenses.map((e: any) => ({
               ...e,
               date: fixDateString(e.date),
@@ -65,16 +65,14 @@ export class FeeService extends StorageService {
            }));
            this.saveItems(this.EXPENSES_KEY, mappedExpenses);
            this.expensesSubject.next(mappedExpenses);
-           hasData = true;
         }
-        if (res.feeStatus && res.feeStatus.length > 0) {
+        if (res.feeStatus && Array.isArray(res.feeStatus)) {
            const mappedStatuses = res.feeStatus.map((s: any) => ({
               ...s,
               month: fixDateString(s.month, true)
            }));
            this.saveItems(this.FEE_STATUS_KEY, mappedStatuses);
            this.feeStatusSubject.next(mappedStatuses);
-           hasData = true;
         }
         this.uiService.hideLoading();
       },
