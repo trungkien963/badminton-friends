@@ -3,8 +3,8 @@
   <!-- BULLETPROOF LOADING OVERLAY -->
   <div *ngIf="isLoading" class="fullscreen-loader">
     <div class="spinner"></div>
-    <h3>Đang đồng bộ dữ liệu...</h3>
-    <p>Vui lòng đợi vài giây để tải thông tin mới nhất</p>
+    <h3>{{ 'DASHBOARD.LOADING' | translate }}</h3>
+    <p>{{ 'DASHBOARD.LOADING_SUB' | translate }}</p>
   </div>
 
   <!-- HERO & QUICK ACTIONS (Bento Grid) -->
@@ -17,13 +17,13 @@
       <div style="display: flex; gap: 10px; flex-wrap: wrap; z-index: 1;">
         <div class="hero-badge">🏸 Badminton Club</div>
         <div class="hero-badge overview-badge">
-          <span style="opacity: 0.8;">Thành viên:</span> 
+          <span style="opacity: 0.8;">{{ 'DASHBOARD.MEMBERS_COUNT' | translate }}</span> 
           <span style="color: white; margin-left: 4px;">{{ totalMembers }}</span>
         </div>
       </div>
       
-      <h1 class="hero-title">MATCHMAKING <br><span class="highlight">HUB</span></h1>
-      <p class="hero-subtitle">Nền tảng quản lý thành viên, tài chính và theo dõi thông số, thành tích sân đấu một cách thông minh, hiện đại.</p>
+      <h1 class="hero-title">{{ 'DASHBOARD.HERO_TITLE' | translate }} <br><span class="highlight">{{ 'DASHBOARD.HERO_TITLE_HUB' | translate }}</span></h1>
+      <p class="hero-subtitle">{{ 'DASHBOARD.HERO_SUBTITLE' | translate }}</p>
     </div>
 
     <!-- Action Grid -->
@@ -33,8 +33,8 @@
       <a routerLink="/match" class="action-card primary">
         <div class="card-icon">⚡</div>
         <div class="card-info">
-          <h3>Bắt đầu Session</h3>
-          <p>Tạo trận đấu, ghép cặp ngẫu nhiên ngay</p>
+          <h3>{{ 'DASHBOARD.ACTION_SESSION_TITLE' | translate }}</h3>
+          <p>{{ 'DASHBOARD.ACTION_SESSION_DESC' | translate }}</p>
         </div>
       </a>
       
@@ -42,24 +42,24 @@
       <a routerLink="/players" class="action-card">
         <div class="card-icon">👥</div>
         <div class="card-info">
-          <h3>Thành viên</h3>
-          <p>Quản lý hồ sơ & đánh giá trình độ</p>
+          <h3>{{ 'DASHBOARD.ACTION_MEMBERS_TITLE' | translate }}</h3>
+          <p>{{ 'DASHBOARD.ACTION_MEMBERS_DESC' | translate }}</p>
         </div>
       </a>
       
       <a routerLink="/monthly-fee" class="action-card">
         <div class="card-icon">💵</div>
         <div class="card-info">
-          <h3>Quản lý Quỹ</h3>
-          <p>Theo dõi thu chi, đóng sân hàng tháng</p>
+          <h3>{{ 'DASHBOARD.ACTION_FUND_TITLE' | translate }}</h3>
+          <p>{{ 'DASHBOARD.ACTION_FUND_DESC' | translate }}</p>
         </div>
       </a>
 
       <a routerLink="/statistics" class="action-card">
         <div class="card-icon">📈</div>
         <div class="card-info">
-          <h3>Thống kê</h3>
-          <p>Biểu đồ phong độ, điểm số, trận đấu</p>
+          <h3>{{ 'DASHBOARD.ACTION_STATS_TITLE' | translate }}</h3>
+          <p>{{ 'DASHBOARD.ACTION_STATS_DESC' | translate }}</p>
         </div>
       </a>
 
@@ -71,7 +71,7 @@
     <div class="bg-glow"></div>
 
     <h2 class="leaderboard-header">
-      <span class="icon">🏆</span> BẢNG VÀNG THÀNH TÍCH (TOP 5)
+      <span class="icon">🏆</span> {{ 'DASHBOARD.LEADERBOARD_TITLE' | translate }}
     </h2>
 
     <!-- Skeletons Loading View -->
@@ -88,17 +88,17 @@
 
     <!-- Empty State -->
     <div *ngIf="!isLoading && topPlayers.length === 0" style="text-align: center; color: var(--text-light); padding: 40px 20px; font-style: italic;">
-      Chưa có chiến binh nào ghi danh. Hãy tạo Session để cập nhật điểm ngay!
+      {{ 'DASHBOARD.LEADERBOARD_EMPTY' | translate }}
     </div>
 
     <!-- Data View -->
     <ng-container *ngIf="!isLoading && topPlayers.length > 0">
       <!-- Table Header -->
       <div class="leaderboard-table-header">
-        <div style="text-align: center;">Hạng</div>
-        <div>Tuyển thủ</div>
-        <div style="text-align: center;">Tỉ lệ thắng</div>
-        <div style="text-align: right;">Điểm số</div>
+        <div style="text-align: center;">{{ 'DASHBOARD.COL_RANK' | translate }}</div>
+        <div>{{ 'DASHBOARD.COL_PLAYER' | translate }}</div>
+        <div style="text-align: center;">{{ 'DASHBOARD.COL_WINRATE' | translate }}</div>
+        <div style="text-align: right;">{{ 'DASHBOARD.COL_SCORE' | translate }}</div>
       </div>
 
       <!-- Rows -->
@@ -145,7 +145,7 @@
       <!-- View All Button -->
       <div class="view-all-container">
         <button routerLink="/statistics" class="view-all-btn">
-          Xem toàn bộ Bảng Xếp Hạng
+          {{ 'DASHBOARD.VIEW_ALL' | translate }}
           <span style="margin-left: 5px;">→</span>
         </button>
       </div>

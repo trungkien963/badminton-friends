@@ -5,11 +5,12 @@ import { RouterLink } from '@angular/router';
 import { PlayerService } from '../../core/services/player.service';
 import { Player } from '../../core/models/player.model';
 import { UiService } from '../../core/services/ui.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-players',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, TranslateModule],
   templateUrl: './players.component.html',
   styleUrls: ['./players.component.scss']
 })
