@@ -3,6 +3,8 @@ import { RouterOutlet } from '@angular/router';
 import { UiService } from './core/services/ui.service';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
+import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +17,7 @@ export class AppComponent implements OnInit {
   title = 'badminton-friends';
   private uiService = inject(UiService);
   public translate = inject(TranslateService);
+  private swUpdate = inject(SwUpdate);
 
   constructor() {
     this.translate.addLangs(['en', 'vn']);
@@ -41,6 +44,17 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.checkNetworkStatus(navigator.onLine);
+
+    // Kích hoạt kiểm tra phiên bản mới từ PWA
+    if (this.swUpdate.isEnabled) {
+      this.swUpdate.versionUpdates
+        .pipe(filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'))
+        .subscribe(() => {
+          if (confirm('Có phiên bản cập nhật mới! Bạn có muốn làm mới ứng dụng ngay không?')) {
+            window.location.reload();
+          }
+        });
+    }
   }
 
   @HostListener('window:offline')
