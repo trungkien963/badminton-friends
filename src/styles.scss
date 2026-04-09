@@ -166,3 +166,50 @@ h1, h2, h3, h4, h5, h6 {
   .skel-text-sm { width: 25%; height: 12px; border-radius: 4px; }
   .skel-badge { width: 60px; height: 30px; border-radius: 30px; flex-shrink: 0;}
 }
+
+/* SweetAlert2 Modern Glassmorphism Overrides */
+.glass-swal-popup {
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5) !important;
+}
+
+.glass-swal-title {
+  color: white !important;
+  font-weight: 800 !important;
+}
+
+.swal2-html-container {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.glass-swal-confirm {
+  background: linear-gradient(135deg, var(--primary-color) 0%, #8cae3a 100%) !important;
+  color: #112B1C !important;
+  font-weight: 800 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 15px rgba(255, 230, 0, 0.2) !important;
+}
+
+.glass-swal-confirm-danger {
+  background: linear-gradient(135deg, var(--error-color) 0%, #e16b7c 100%) !important;
+  color: #112B1C !important;
+  font-weight: 800 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 15px rgba(253, 164, 175, 0.2) !important;
+}
+
+.glass-swal-cancel {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: white !important;
+  font-weight: 700 !important;
+  border-radius: 12px !important;
+}
+
+/* Custom Spinner for showLoading */
+.swal2-loader {
+  border: 0.25em solid rgba(255, 255, 255, 0.2) !important;
+  border-top-color: var(--primary-color) !important;
+}

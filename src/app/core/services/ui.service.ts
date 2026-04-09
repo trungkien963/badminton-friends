@@ -6,11 +6,25 @@ import Swal from 'sweetalert2';
 })
 export class UiService {
 
+  private defaultSwalOptions = {
+    background: 'rgba(20, 30, 25, 0.95)',
+    color: '#fff',
+    backdrop: 'rgba(0,0,0,0.6)',
+    customClass: {
+      popup: 'glass-swal-popup',
+      title: 'glass-swal-title',
+      confirmButton: 'glass-swal-confirm',
+      cancelButton: 'glass-swal-cancel'
+    }
+  };
+
   constructor() { }
 
   showSuccess(title: string, text?: string) {
     return Swal.fire({
+      ...this.defaultSwalOptions,
       icon: 'success',
+      iconColor: '#86EFAC',
       title,
       text,
       timer: 2000,
@@ -20,30 +34,40 @@ export class UiService {
 
   showError(title: string, text?: string) {
     return Swal.fire({
+      ...this.defaultSwalOptions,
       icon: 'error',
+      iconColor: '#FDA4AF',
       title,
       text,
-      confirmButtonColor: '#d33'
+      confirmButtonColor: '#FDA4AF',
+      customClass: {
+         ...this.defaultSwalOptions.customClass,
+         confirmButton: 'glass-swal-confirm-danger'
+      }
     });
   }
 
   showWarning(title: string, text?: string) {
     return Swal.fire({
+      ...this.defaultSwalOptions,
       icon: 'warning',
+      iconColor: '#FDE047',
       title,
       text,
-      confirmButtonColor: '#f8bb86'
+      confirmButtonColor: '#FDE047'
     });
   }
 
   async confirm(title: string, text: string, confirmButtonText = 'Đồng ý', cancelButtonText = 'Hủy'): Promise<boolean> {
     const result = await Swal.fire({
+      ...this.defaultSwalOptions,
       title,
       text,
       icon: 'warning',
+      iconColor: '#FDE047',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#FDE047',
+      cancelButtonColor: 'rgba(255,255,255,0.1)',
       confirmButtonText,
       cancelButtonText
     });
@@ -52,6 +76,7 @@ export class UiService {
 
   showLoading(text: string = 'Đang xử lý...') {
     Swal.fire({
+      ...this.defaultSwalOptions,
       title: text,
       allowOutsideClick: false,
       allowEscapeKey: false,
@@ -67,7 +92,9 @@ export class UiService {
 
   showOfflineModal() {
     Swal.fire({
+      ...this.defaultSwalOptions,
       icon: 'error',
+      iconColor: '#FDA4AF',
       title: 'Mất kết nối Internet',
       text: 'Vui lòng kết nối mạng để tiếp tục sử dụng ứng dụng.',
       allowOutsideClick: false,
