@@ -67,16 +67,14 @@ export class PlayerService extends StorageService {
   }
 
   private syncToCloud(): void {
-    this.uiService.showLoading('Đang lưu dữ liệu...');
     const players = this.getPlayers();
     this.googleSheetsService.syncPlayersToSheet(players).subscribe({
       next: (res) => {
-        console.log('Đã lưu dữ liệu lên Google Sheets', res);
-        this.uiService.hideLoading();
+        console.log('Đã lưu dữ liệu lên Google Sheets (Background)', res);
       },
       error: (err) => {
         console.error('Lỗi lưu dữ liệu người chơi:', err);
-        this.uiService.hideLoading();
+        this.uiService.showError('Lỗi đồng bộ', 'Không thể lưu lên Cloud, vui lòng thử lại sau.');
       }
     });
   }

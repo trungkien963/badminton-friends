@@ -36,7 +36,6 @@ export class FeeService extends StorageService {
   }
 
   private syncFromCloud(): void {
-    this.uiService.showLoading('Đang tải dữ liệu...');
     this.googleSheetsService.fetchFinanceFromSheet().subscribe({
       next: (res) => {
         let hasData = false;
@@ -74,27 +73,23 @@ export class FeeService extends StorageService {
            this.saveItems(this.FEE_STATUS_KEY, mappedStatuses);
            this.feeStatusSubject.next(mappedStatuses);
         }
-        this.uiService.hideLoading();
       },
       error: (err) => {
         console.error('Lỗi tải dữ liệu tài chính:', err);
-        this.uiService.hideLoading();
       }
     });
   }
 
   private syncToCloud(): void {
-      this.uiService.showLoading('Đang lưu dữ liệu...');
       const expenses = this.expensesSubject.getValue();
       const feeStatus = this.feeStatusSubject.getValue();
       this.googleSheetsService.syncFinanceToSheet(expenses, feeStatus).subscribe({
           next: (res) => {
-              console.log('Đã đồng bộ TÀI CHÍNH lên Google Sheet', res);
-              this.uiService.hideLoading();
+              console.log('Đã đồng bộ TÀI CHÍNH lên Google Sheet (Background)', res);
           },
           error: (err) => {
               console.error('Lỗi lưu dữ liệu tài chính:', err);
-              this.uiService.hideLoading();
+              this.uiService.showError('Lỗi đồng bộ', 'Không thể lưu tài chính lên Cloud, vui lòng thử lại sau.');
           }
       });
   }
