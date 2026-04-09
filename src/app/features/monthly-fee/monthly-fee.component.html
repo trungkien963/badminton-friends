@@ -74,7 +74,7 @@
                           <div class="col-name player-info">
                               <span class="player-name">{{ row.player.name }}</span>
                               <span class="dept-summary mobile-only" [class.text-danger]="row.totalOwe > 0 && !row.isPaid" [class.text-success]="row.isPaid">
-                                  {{ Math.round(row.totalOwe) | number:'1.0-0' }}đ
+                                  {{ row.totalOwe < 0 ? ('(' + (Math.round(row.totalOwe * -1) | number:'1.0-0') + 'đ)') : ((Math.round(row.totalOwe) | number:'1.0-0') + 'đ') }}
                               </span>
                           </div>
                           
@@ -105,7 +105,7 @@
                           </div>
 
                           <div class="col-right desktop-only text-xl text-bold" [ngClass]="row.totalOwe > 0 && !row.isPaid ? 'text-danger' : (row.isPaid ? 'text-success' : 'text-white')">
-                              {{ Math.round(row.totalOwe) | number:'1.0-0' }}đ
+                              {{ row.totalOwe < 0 ? ('(' + (Math.round(row.totalOwe * -1) | number:'1.0-0') + 'đ)') : ((Math.round(row.totalOwe) | number:'1.0-0') + 'đ') }}
                           </div>
                       </div>
                   </div>
@@ -224,7 +224,7 @@
           <div class="detail-row total-row">
               <span class="label">Tổng phải đóng:</span>
               <span class="val" [ngClass]="selectedPlayerDetails.totalOwe > 0 && !selectedPlayerDetails.isPaid ? 'text-danger' : 'text-white'">
-                  {{ Math.round(selectedPlayerDetails.totalOwe) | number:'1.0-0' }}đ
+                  {{ selectedPlayerDetails.totalOwe < 0 ? ('(' + (Math.round(selectedPlayerDetails.totalOwe * -1) | number:'1.0-0') + 'đ)') : ((Math.round(selectedPlayerDetails.totalOwe) | number:'1.0-0') + 'đ') }}
               </span>
           </div>
           <div class="modal-footer" style="margin-top: 15px;">
