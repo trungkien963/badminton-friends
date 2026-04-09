@@ -289,13 +289,14 @@
     justify-content: space-between;
     align-items: center;
     padding: 16px;
-    background: rgba(255,255,255,0.03);
+    background: rgba(255,255,255,0.04);
     border-radius: 16px;
-    border-left: 3px solid #ff4d4f;
+    border: 1px solid rgba(255,255,255,0.05);
     transition: all 0.2s;
     
     &:hover {
-        background: rgba(255,255,255,0.06);
+        background: rgba(255,255,255,0.08);
+        border-color: rgba(255,255,255,0.1);
     }
 }
 
@@ -320,7 +321,7 @@
     gap: 8px;
     flex-wrap: wrap;
     
-    .payer { color: #faad14; font-weight: 600; }
+    .payer { color: var(--primary-color); font-weight: 600; }
 }
 
 .expense-actions {
@@ -330,14 +331,14 @@
 }
 
 .expense-amount {
-    color: #ff4d4f;
+    color: var(--error-color);
     font-weight: 800;
     font-size: 1.1rem;
 }
 
 .btn-icon-danger {
-    background: rgba(255, 77, 79, 0.1);
-    color: #ff4d4f;
+    background: rgba(253, 164, 175, 0.1);
+    color: var(--error-color);
     border: none;
     width: 32px;
     height: 32px;
@@ -349,8 +350,8 @@
     transition: 0.2s;
     
     &:hover {
-        background: #ff4d4f;
-        color: white;
+        background: var(--error-color);
+        color: #112B1C;
         transform: scale(1.05);
     }
 }
@@ -369,19 +370,19 @@
 /* Fee Table */
 .desktop-grid {
     display: grid;
-    /* User Name | Status | Days | Gross | Deduct | Carryover | Total */
-    grid-template-columns: 1.5fr minmax(100px, 1fr) 0.6fr 1fr 1fr 1fr 1.2fr;
-    gap: 16px;
+    grid-template-columns: 1.5fr 110px 60px 1.2fr 1.2fr 1.2fr 1.4fr;
+    gap: 12px;
     align-items: center;
 }
 
 .fee-header {
     padding: 0 16px 12px;
-    color: rgba(255,255,255,0.5);
+    color: rgba(255,255,255,0.6);
     font-size: 0.8rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    white-space: nowrap;
 }
 
 .fee-body {
@@ -477,7 +478,7 @@
 .text-white { color: white; }
 .text-danger { color: var(--error-color) !important; }
 .text-success { color: var(--success-color) !important; }
-.text-warning { color: #faad14 !important; }
+.text-warning { color: var(--primary-color) !important; }
 .text-bold { font-weight: 700; }
 .text-xl { font-size: 1.15rem; font-weight: 800; }
 .highlight-primary { color: var(--primary-color); font-weight: 800; }
