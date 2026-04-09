@@ -84,7 +84,8 @@ export class UiService {
       showConfirmButton: false,
       customClass: {
         ...this.defaultSwalOptions.customClass,
-        popup: 'glass-swal-popup loading-popup'
+        popup: 'summer-loading-popup',
+        title: 'summer-loading-title'
       }
     });
   }
