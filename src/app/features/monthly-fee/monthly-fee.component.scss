@@ -377,6 +377,11 @@
 
 .fee-header {
     padding: 0 16px 12px;
+    border: 1px solid transparent; /* Match the border structural offset of .fee-row */
+    position: relative;
+}
+
+.fee-header-grid {
     color: rgba(255,255,255,0.6);
     font-size: 0.8rem;
     font-weight: 700;
