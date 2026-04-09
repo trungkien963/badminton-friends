@@ -55,8 +55,20 @@ export class RankingService {
             p.winRate = 0;
         }
 
-        // System: WinRate + Bonus for participation (e.g. 5 points per match played to encourage activity)
-        p.rankingScore = p.winRate + (p.matchesPlayed * 5);
+        // Tính Ranking Score theo cơ chế Giảm dần đều (Diminishing Returns):
+        // - WinRate chiếm 80% sức nặng
+        // - Điểm tham gia: 20 trận đầu (2đ/trận), trận 21-50 (1đ/trận), từ trận 51+ (0.5đ/trận)
+        const winScore = p.winRate * 0.8;
+        let participationScore = 0;
+        if (p.matchesPlayed <= 20) {
+            participationScore = p.matchesPlayed * 2;
+        } else if (p.matchesPlayed <= 50) {
+            participationScore = 40 + (p.matchesPlayed - 20) * 1;
+        } else {
+            participationScore = 70 + (p.matchesPlayed - 50) * 0.5;
+        }
+        
+        p.rankingScore = Math.round(winScore + participationScore);
     });
 
     // 3. Sort by Ranking Score

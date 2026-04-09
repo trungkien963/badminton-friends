@@ -35,6 +35,25 @@ export class PlayerService extends StorageService {
     this.googleSheetsService.fetchPlayersFromSheet().subscribe({
       next: (cloudPlayers) => {
         if (cloudPlayers && cloudPlayers.length > 0) {
+          // Khởi tạo lại điểm theo công thức mới nhất để bảng vàng/dashboard update tức thì
+          cloudPlayers.forEach(p => {
+            if (p.matchesPlayed > 0) {
+                p.winRate = Math.round((p.totalWins / p.matchesPlayed) * 100);
+            } else {
+                p.winRate = 0;
+            }
+            const winScore = p.winRate * 0.8;
+            let participationScore = 0;
+            if (p.matchesPlayed <= 20) {
+                participationScore = p.matchesPlayed * 2;
+            } else if (p.matchesPlayed <= 50) {
+                participationScore = 40 + (p.matchesPlayed - 20) * 1;
+            } else {
+                participationScore = 70 + (p.matchesPlayed - 50) * 0.5;
+            }
+            p.rankingScore = Math.round(winScore + participationScore);
+          });
+          
           // Cập nhật Local Storage bằng dữ liệu Cloud mới nhất
           this.saveItems(this.PLAYERS_KEY, cloudPlayers);
           this.playersSubject.next(cloudPlayers);
