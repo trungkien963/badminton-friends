@@ -47,21 +47,26 @@
 
 .filter-section {
   display: flex;
-  align-items: center;
   justify-content: center;
-  gap: 15px;
-  margin-bottom: 20px;
-  background: rgba(255,255,255,0.03);
-  padding: 15px;
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.05);
+  margin-bottom: 25px;
+  
+  .filter-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 15px;
+    background: rgba(255,255,255,0.03);
+    padding: 15px 25px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.05);
 
-  label {
-    font-weight: 600;
-    color: rgba(255,255,255,0.8);
+    label {
+      font-weight: 600;
+      color: rgba(255,255,255,0.8);
+    }
   }
 
-  .month-picker {
+  .filter-select, .filter-input {
     background: rgba(0,0,0,0.3);
     border: 1px solid rgba(255,255,255,0.2);
     color: white;
@@ -76,6 +81,12 @@
     &:focus {
       border-color: var(--primary-color, #FFE600);
     }
+  }
+
+  .filter-inputs {
+    display: flex;
+    gap: 10px;
+    align-items: center;
   }
 }
 

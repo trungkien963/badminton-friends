@@ -73,18 +73,53 @@
   </div>
 
   <div class="filter-section">
-    <label> Chọn tháng biểu đồ: </label>
-    <input type="month" [value]="selectedMonth" (change)="onMonthChange($event)" class="month-picker">
+    <div class="filter-controls">
+      <label>Thời gian thống kê:</label>
+      <select [(ngModel)]="filterMode" (change)="onFilterModeChange()" class="filter-select">
+        <option value="day">Theo ngày</option>
+        <option value="week">Theo tuần</option>
+        <option value="month">Theo tháng</option>
+        <option value="quarter">Theo quý</option>
+        <option value="year">Theo năm</option>
+        <option value="custom">Tùy chọn khoảng ngày</option>
+      </select>
+
+      <div class="filter-inputs">
+        <input *ngIf="filterMode === 'day'" type="date" [(ngModel)]="selectedDate" (change)="generateData()" class="filter-input">
+        
+        <input *ngIf="filterMode === 'week'" type="week" [(ngModel)]="selectedWeek" (change)="generateData()" class="filter-input">
+        
+        <input *ngIf="filterMode === 'month'" type="month" [(ngModel)]="selectedMonth" (change)="generateData()" class="filter-input">
+        
+        <div *ngIf="filterMode === 'quarter'" class="quarter-inputs" style="display: flex; gap: 10px;">
+          <select [(ngModel)]="selectedQuarter" (change)="generateData()" class="filter-select">
+            <option value="1">Quý 1</option>
+            <option value="2">Quý 2</option>
+            <option value="3">Quý 3</option>
+            <option value="4">Quý 4</option>
+          </select>
+          <input type="number" [(ngModel)]="selectedYearForQuarter" (change)="generateData()" class="filter-input" style="width: 100px;" min="2000" max="2100">
+        </div>
+
+        <input *ngIf="filterMode === 'year'" type="number" [(ngModel)]="selectedYear" (change)="generateData()" class="filter-input" style="width: 120px;" min="2000" max="2100">
+
+        <div *ngIf="filterMode === 'custom'" class="custom-inputs" style="display: flex; gap: 10px; align-items: center;">
+          <input type="date" [(ngModel)]="startDate" (change)="generateData()" class="filter-input">
+          <span style="color: var(--text-light);">đến</span>
+          <input type="date" [(ngModel)]="endDate" (change)="generateData()" class="filter-input">
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- MONTHLY STATS TABLE -->
   <div class="solid-dark-card leaderboard-container">
     <h2 class="leaderboard-header" style="justify-content: flex-start; font-size: 1.3rem;">
-      <span class="icon">📅</span> CHI TIẾT HOẠT ĐỘNG THÁNG
+      <span class="icon">📅</span> CHI TIẾT HOẠT ĐỘNG
     </h2>
 
     <div *ngIf="monthlyStats.length === 0" style="text-align: center; color: var(--text-light); padding: 40px 20px; font-style: italic;">
-      Không có dữ liệu cho tháng này.
+      Không có dữ liệu cho khoảng thời gian này.
     </div>
 
     <ng-container *ngIf="monthlyStats.length > 0">
@@ -139,7 +174,7 @@
         <h2>LỊCH SỬ ĐÁNH</h2>
         <div class="subtitle">
            <span class="player-name">{{ selectedPlayerForDetails.name }}</span>
-           <span class="month-badge">Tháng {{ selectedMonth }}</span>
+           <span class="month-badge">{{ getFilterDisplayName() }}</span>
         </div>
       </div>
       <button class="close-btn" (click)="closeDetails()">✖</button>
