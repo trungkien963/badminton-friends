@@ -21,7 +21,7 @@
     <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin-bottom: 30px;">
       <div *ngFor="let p of allPlayers" 
            (click)="toggleSelection(p.id)"
-           [style.background]="selectedPlayers.has(p.id) ? 'rgba(178,216,81,0.12)' : 'rgba(255,255,255,0.04)'"
+           [style.background]="selectedPlayers.has(p.id) ? 'rgba(255,230,0,0.12)' : 'rgba(255,255,255,0.04)'"
            [style.border]="selectedPlayers.has(p.id) ? '2px solid var(--primary-color)' : '2px solid rgba(255,255,255,0.05)'"
            style="border-radius: 12px; padding: 14px 16px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
         
@@ -35,7 +35,7 @@
 
         <div style="flex-shrink: 0;">
           <!-- Selected Radio Dot -->
-          <div *ngIf="selectedPlayers.has(p.id)" style="width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--primary-color); display: flex; align-items: center; justify-content: center; background: rgba(178,216,81,0.1); box-shadow: 0 0 8px rgba(178,216,81,0.4);">
+          <div *ngIf="selectedPlayers.has(p.id)" style="width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--primary-color); display: flex; align-items: center; justify-content: center; background: rgba(255,230,0,0.1); box-shadow: 0 0 8px rgba(255,230,0,0.4);">
             <div style="width: 10px; height: 10px; background: var(--primary-color); border-radius: 50%;"></div>
           </div>
           <!-- Unselected Radio Ring -->

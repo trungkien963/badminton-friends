@@ -34,7 +34,7 @@
   font-size: 2.2rem;
   font-weight: 900;
   margin-bottom: 10px;
-  color: var(--primary-color, #b2d851);
+  color: var(--primary-color, #FFE600);
   letter-spacing: 1px;
 }
 
@@ -74,7 +74,7 @@
     transition: 0.3s;
     
     &:focus {
-      border-color: var(--primary-color, #b2d851);
+      border-color: var(--primary-color, #FFE600);
     }
   }
 }
@@ -96,7 +96,7 @@
     right: -50px;
     width: 200px;
     height: 200px;
-    background: rgba(178,216,81,0.1);
+    background: rgba(255,230,0,0.1);
     filter: blur(50px);
     border-radius: 50%;
   }
@@ -243,7 +243,7 @@
         display: inline-block;
         
         &.high {
-          background: rgba(178, 216, 81, 0.15);
+          background: rgba(255, 230, 0, 0.15);
           color: var(--primary-color);
         }
         &.normal {
@@ -276,8 +276,8 @@
         font-weight: 500;
         white-space: nowrap;
         
-        .win { color: #4CAF50; }
-        .loss { color: #F44336; margin-left: 4px; }
+        .win { color: var(--success-color); }
+        .loss { color: var(--error-color); margin-left: 4px; }
       }
     }
   }
@@ -298,7 +298,7 @@
 
 .modal-content {
   background: rgba(30, 40, 30, 0.95); // Dark greenish tint to match theme
-  border: 1px solid rgba(178, 216, 81, 0.3); // Primary color border
+  border: 1px solid rgba(255, 230, 0, 0.3); // Primary color border
   border-radius: 20px;
   width: 90%;
   max-width: 500px;
@@ -413,7 +413,7 @@
     &:hover {
       background: rgba(255, 255, 255, 0.03);
       transform: translateY(-2px);
-      border-color: rgba(178, 216, 81, 0.2);
+      border-color: rgba(255, 230, 0, 0.2);
     }
 
     .card-top {
@@ -434,7 +434,7 @@
       }
 
       .match-count {
-        background: rgba(178, 216, 81, 0.15);
+        background: rgba(255, 230, 0, 0.15);
         color: var(--primary-color);
         padding: 4px 10px;
         border-radius: 8px;
@@ -479,13 +479,13 @@
         }
 
         &.win {
-          .number { color: #4CAF50; }
-          .label { color: rgba(76, 175, 80, 0.7); }
+          .number { color: var(--success-color); }
+          .label { color: var(--success-color); opacity: 0.8; }
         }
 
         &.loss {
-          .number { color: #F44336; }
-          .label { color: rgba(244, 67, 54, 0.7); }
+          .number { color: var(--error-color); }
+          .label { color: var(--error-color); opacity: 0.8; }
         }
       }
     }

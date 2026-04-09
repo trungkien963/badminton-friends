@@ -2,17 +2,17 @@
 
 // Custom Variables - Tennis/Badminton Sport Vibe based on user provided image
 :root {
-  --primary-color: #B2D851; // Vibrant neon/lime green
-  --secondary-color: #7DBA45; // Deeper neon green
-  --tertiary-color: #123C2A; // Solid dark green
-  --background-color: #1A5338; // Rich emerald green background
-  --background-gradient: linear-gradient(135deg, #1B5D3F 0%, #0F3120 100%);
-  --surface-color: rgba(255, 255, 255, 0.08); // Glassmorphism surface
-  --surface-dark: #103423; // Solid dark surface
-  --text-dark: #FFFFFF;
-  --text-light: rgba(255, 255, 255, 0.7);
-  --success-color: #B2D851;
-  --error-color: #E74C3C;
+  --primary-color: #FDE047; // Softer, warmer "Summer Sun" pastel yellow (less eye strain)
+  --secondary-color: #FBBF24; // Sunset yellow/orange
+  --tertiary-color: #00768C; // Deep teal
+  --background-color: #00A896; // Fresh tropical cyan/green
+  --background-gradient: linear-gradient(135deg, #20BF55 0%, #01BAEF 100%); // Vibrant grass to ocean summer gradient
+  --surface-color: rgba(0, 0, 0, 0.2); // Darker glassmorphism to contrast with white text
+  --surface-dark: rgba(10, 25, 20, 0.5); // Deep grounded dark glass for data tables
+  --text-dark: #F8FAFC; // Soft, cool white
+  --text-light: rgba(248, 250, 252, 0.75); // Increased from 0.65 to 0.75 for better readability
+  --success-color: #86EFAC; // Soft pastel mint green (readable and pleasant)
+  --error-color: #FDA4AF; // Soft coral/rose (warm, not aggressive red)
   --radius-lg: 16px;
   --radius-md: 12px;
   --radius-sm: 8px;
@@ -48,15 +48,17 @@ h1, h2, h3, h4, h5, h6 {
 
 .solid-dark-card {
   background: var(--surface-dark);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
   border-radius: var(--radius-lg);
   color: #fff;
 }
 
 .gradient-btn {
   background: var(--primary-color);
-  color: #0F3120 !important; /* Dark text on bright button */
+  color: #123C2A !important; /* Dark legible text on bright yellow button */
   border: none;
   font-weight: 700;
   letter-spacing: 0.5px;
@@ -65,8 +67,8 @@ h1, h2, h3, h4, h5, h6 {
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(178, 216, 81, 0.4);
-    background: #c3e861;
+    box-shadow: 0 8px 20px rgba(255, 230, 0, 0.4);
+    background: #FFF04D;
   }
 }
 

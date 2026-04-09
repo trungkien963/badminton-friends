@@ -71,7 +71,7 @@
         outline: none;
         border-color: var(--primary-color);
         background: rgba(255, 255, 255, 0.1);
-        box-shadow: 0 0 0 3px rgba(178, 216, 81, 0.2);
+        box-shadow: 0 0 0 3px rgba(255, 230, 0, 0.2);
     }
     
     &::-webkit-calendar-picker-indicator {
@@ -139,8 +139,8 @@
 
     &.primary-theme {
         &::before { background: var(--primary-color); }
-        .card-icon { background: rgba(178, 216, 81, 0.1); color: var(--primary-color); }
-        &:hover { box-shadow: 0 10px 30px rgba(178, 216, 81, 0.15); }
+        .card-icon { background: rgba(255, 230, 0, 0.1); color: var(--primary-color); }
+        &:hover { box-shadow: 0 10px 30px rgba(255, 230, 0, 0.15); }
     }
 }
 
@@ -260,13 +260,13 @@
     font-weight: 800;
     font-size: 0.9rem;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(178,216,81,0.2);
+    box-shadow: 0 4px 12px rgba(255,230,0,0.2);
     transition: all 0.2s;
     flex-shrink: 0;
     
     &:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(178,216,81,0.3);
+        box-shadow: 0 6px 16px rgba(255,230,0,0.3);
     }
 }
 
@@ -359,7 +359,6 @@
     text-align: center;
     padding: 40px 20px;
     color: rgba(255,255,255,0.4);
-    
     .empty-icon {
         font-size: 3rem;
         margin-bottom: 16px;
@@ -416,14 +415,14 @@
     }
 
     &.has-debt {
-        background: linear-gradient(90deg, rgba(255, 77, 79, 0.05) 0%, transparent 100%);
-        border-color: rgba(255, 77, 79, 0.1);
-        &::before { background: #ff4d4f; }
+        background: linear-gradient(90deg, rgba(253, 164, 175, 0.05) 0%, transparent 100%);
+        border-color: rgba(253, 164, 175, 0.1);
+        &::before { background: var(--error-color); }
     }
 
     &.is-paid {
-        background: linear-gradient(90deg, rgba(82, 196, 26, 0.03) 0%, transparent 100%);
-        border-color: rgba(82, 196, 26, 0.1);
+        background: linear-gradient(90deg, rgba(134, 239, 172, 0.03) 0%, transparent 100%);
+        border-color: rgba(134, 239, 172, 0.1);
         opacity: 0.8;
     }
 }
@@ -457,17 +456,17 @@
     width: 100px;
     
     &.paid {
-        background: rgba(82, 196, 26, 0.15);
-        color: #52c41a;
-        box-shadow: inset 0 0 0 1px rgba(82, 196, 26, 0.3);
-        &:hover { background: rgba(82, 196, 26, 0.25); }
+        background: rgba(134, 239, 172, 0.15);
+        color: var(--success-color);
+        box-shadow: inset 0 0 0 1px rgba(134, 239, 172, 0.3);
+        &:hover { background: rgba(134, 239, 172, 0.25); }
     }
     
     &.unpaid {
-        background: rgba(255, 77, 79, 0.15);
-        color: #ff4d4f;
-        box-shadow: inset 0 0 0 1px rgba(255, 77, 79, 0.3);
-        &:hover { background: rgba(255, 77, 79, 0.25); }
+        background: rgba(253, 164, 175, 0.15);
+        color: var(--error-color);
+        box-shadow: inset 0 0 0 1px rgba(253, 164, 175, 0.3);
+        &:hover { background: rgba(253, 164, 175, 0.25); }
     }
 }
 
@@ -476,8 +475,8 @@
 .col-right { text-align: right; }
 .text-muted { color: rgba(255,255,255,0.6); }
 .text-white { color: white; }
-.text-danger { color: #ff4d4f !important; }
-.text-success { color: #52c41a !important; }
+.text-danger { color: var(--error-color) !important; }
+.text-success { color: var(--success-color) !important; }
 .text-warning { color: #faad14 !important; }
 .text-bold { font-weight: 700; }
 .text-xl { font-size: 1.15rem; font-weight: 800; }
@@ -612,7 +611,7 @@
         font-size: 1.4rem;
         font-weight: 700;
         color: var(--primary-color);
-        &::placeholder { color: rgba(178,216,81,0.3); }
+        &::placeholder { color: rgba(255,230,0,0.3); }
     }
 }
 
@@ -641,8 +640,8 @@
     .btn-submit {
         background: linear-gradient(135deg, var(--primary-color) 0%, #8cae3a 100%);
         color: #112B1C;
-        box-shadow: 0 4px 15px rgba(178,216,81,0.2);
-        &:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(178,216,81,0.3); }
+        box-shadow: 0 4px 15px rgba(255,230,0,0.2);
+        &:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,230,0,0.3); }
     }
 }
 

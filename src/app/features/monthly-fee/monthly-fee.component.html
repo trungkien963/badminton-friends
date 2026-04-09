@@ -197,7 +197,7 @@
       <div class="modal-body">
           <div class="detail-row">
               <span class="label">Trạng thái:</span>
-              <span class="val" [style.color]="selectedPlayerDetails.isPaid ? '#52c41a' : '#ff4d4f'">
+              <span class="val" [style.color]="selectedPlayerDetails.isPaid ? 'var(--success-color)' : 'var(--error-color)'">
                   {{ selectedPlayerDetails.isPaid ? '✓ Đã Đóng' : '⏳ Chưa Đóng' }}
               </span>
           </div>
