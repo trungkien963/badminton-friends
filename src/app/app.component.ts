@@ -18,10 +18,10 @@ export class AppComponent implements OnInit {
 
   constructor() {
     this.translate.addLangs(['en', 'vn']);
-    this.translate.setDefaultLang('en');
+    this.translate.setDefaultLang('vn');
     
-    // Default is 'en' unless previously saved
-    const savedLang = localStorage.getItem('app_lang') || 'en';
+    // Default is 'vn' unless previously saved
+    const savedLang = localStorage.getItem('app_lang') || 'vn';
     this.translate.use(savedLang).subscribe({
       next: (res) => console.log('Successfully loaded language:', savedLang, res),
       error: (err) => console.error('Failed to load language:', savedLang, err)
@@ -29,8 +29,8 @@ export class AppComponent implements OnInit {
   }
 
   toggleLanguage() {
-    const currentLang = this.translate.currentLang || this.translate.getDefaultLang() || 'en';
-    const newLang = currentLang === 'en' ? 'vn' : 'en';
+    const currentLang = this.translate.currentLang || this.translate.getDefaultLang() || 'vn';
+    const newLang = currentLang === 'vn' ? 'en' : 'vn';
     console.log('Language switched from', currentLang, 'to', newLang);
     this.translate.use(newLang).subscribe({
       next: (res) => console.log('Successfully loaded language:', newLang, res),
