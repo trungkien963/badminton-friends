@@ -47,7 +47,9 @@ export class GoogleSheetsService {
       return of([]);
     }
 
-    return this.http.get<any[]>(`${this.SCRIPT_URL}?action=GET_PLAYERS`).pipe(
+    // Thêm timestamp để huỷ cache của trình duyệt (browser/mobile cache)
+    const timestamp = new Date().getTime();
+    return this.http.get<any[]>(`${this.SCRIPT_URL}?action=GET_PLAYERS&t=${timestamp}`).pipe(
       map(rows => {
         if (!rows || !Array.isArray(rows)) return [];
         // Chuyển rỗng hoặc chuỗi thành kiểu boolean/number tuỳ ý nếu cần,
@@ -104,7 +106,9 @@ export class GoogleSheetsService {
       return of({ expenses: [], feeStatus: [] });
     }
 
-    return this.http.get<any>(`${this.SCRIPT_URL}?action=GET_FINANCE`).pipe(
+    // Thêm timestamp để huỷ cache của trình duyệt (browser/mobile cache)
+    const timestamp = new Date().getTime();
+    return this.http.get<any>(`${this.SCRIPT_URL}?action=GET_FINANCE&t=${timestamp}`).pipe(
       map(res => {
         if (!res) return { expenses: [], feeStatus: [] };
         return {

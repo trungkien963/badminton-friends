@@ -171,8 +171,12 @@ export class MatchComponent implements OnInit {
             }
             p.playHistory = JSON.stringify(history);
         }
-        this.playerService.updatePlayer(p);
     });
+
+    // BATCH UPDATE: Cập nhật tất cả người chơi trong 1 lần gọi duy nhất 
+    // Tránh việc gọi updatePlayer trong vòng lặp gây spam (ví dụ 8 người = 8 request đồng thời)
+    // làm Google Sheet Apps Script xử lý đè chéo, sinh ra record rác/double ở sheet History.
+    this.playerService.updatePlayers(updatedPlayers);
 
     this.uiService.showSuccess('Hoàn tất!', 'Đã lưu kết quả buổi cáp kèo và cập nhật Bảng Xếp Hạng thành công!');
   }

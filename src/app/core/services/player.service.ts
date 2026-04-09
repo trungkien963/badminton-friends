@@ -113,6 +113,16 @@ export class PlayerService extends StorageService {
     this.syncToCloud();
   }
 
+  updatePlayers(updatedPlayersList: Player[]): void {
+    let players = this.getPlayers();
+    updatedPlayersList.forEach(updatedPlayer => {
+        players = players.map(p => p.id === updatedPlayer.id ? updatedPlayer : p);
+    });
+    this.saveItems(this.PLAYERS_KEY, players);
+    this.playersSubject.next(players);
+    this.syncToCloud();
+  }
+
   deletePlayer(id: string): void {
     const players = this.getPlayers().filter(p => p.id !== id);
     this.saveItems(this.PLAYERS_KEY, players);
