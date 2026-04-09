@@ -376,9 +376,10 @@
 }
 
 .fee-header {
-    padding: 0 16px 12px;
+    padding: 0 16px 12px 16px !important; /* Explicitly state all 4 values to prevent any browser/minifier bug with 3-value shorthand */
     border: 1px solid transparent; /* Match the border structural offset of .fee-row */
     position: relative;
+    box-sizing: border-box;
 }
 
 .fee-header-grid {
