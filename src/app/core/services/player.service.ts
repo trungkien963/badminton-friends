@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { StorageService } from './storage.service';
 import { Player } from '../models/player.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { GoogleSheetsService } from './google-sheets.service';
+import { UiService } from './ui.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,8 @@ export class PlayerService extends StorageService {
 
   private isLoadingSubject = new BehaviorSubject<boolean>(true);
   public isLoading$ = this.isLoadingSubject.asObservable();
+
+  private uiService = inject(UiService);
 
   constructor(private googleSheetsService: GoogleSheetsService) {
     super();
@@ -45,9 +48,17 @@ export class PlayerService extends StorageService {
   }
 
   private syncToCloud(): void {
+    this.uiService.showLoading('Đang lưu dữ liệu...');
     const players = this.getPlayers();
-    this.googleSheetsService.syncPlayersToSheet(players).subscribe(res => {
-      console.log('Đã lưu dữ liệu lên Google Sheets', res);
+    this.googleSheetsService.syncPlayersToSheet(players).subscribe({
+      next: (res) => {
+        console.log('Đã lưu dữ liệu lên Google Sheets', res);
+        this.uiService.hideLoading();
+      },
+      error: (err) => {
+        console.error('Lỗi lưu dữ liệu người chơi:', err);
+        this.uiService.hideLoading();
+      }
     });
   }
 

@@ -3,6 +3,7 @@ import { StorageService } from './storage.service';
 import { Expense, PlayerFeeStatus } from '../models/fee.model';
 import { BehaviorSubject } from 'rxjs';
 import { GoogleSheetsService } from './google-sheets.service';
+import { UiService } from './ui.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ export class FeeService extends StorageService {
   private readonly FEE_STATUS_KEY = 'badminton_fee_status';
   
   private googleSheetsService = inject(GoogleSheetsService);
+  private uiService = inject(UiService);
 
   private expensesSubject = new BehaviorSubject<Expense[]>([]);
   public expenses$ = this.expensesSubject.asObservable();
@@ -34,22 +36,68 @@ export class FeeService extends StorageService {
   }
 
   private syncFromCloud(): void {
-    this.googleSheetsService.fetchFinanceFromSheet().subscribe(res => {
-        if ((res.expenses && res.expenses.length > 0) || (res.feeStatus && res.feeStatus.length > 0)) {
-           this.saveItems(this.EXPENSES_KEY, res.expenses);
-           this.expensesSubject.next(res.expenses);
+    this.uiService.showLoading('Đang tải dữ liệu...');
+    this.googleSheetsService.fetchFinanceFromSheet().subscribe({
+      next: (res) => {
+        let hasData = false;
+        
+        // Helper specifically for fixing Google Apps Script corrupted Date strings 
+        // e.g., "2026-04" -> "2026-03-31T15:00:00.000Z" due to UTC shift
+        const fixDateString = (isoString: string, isMonthOnly: boolean = false) => {
+           if (!isoString) return '';
+           if (!isoString.includes('T')) {
+               return isMonthOnly ? isoString.substring(0, 7) : isoString.substring(0, 10);
+           }
+           const d = new Date(isoString);
+           // Add 12 hours to safely push it into the intended day/month irrespective of timezone
+           d.setHours(d.getHours() + 12);
+           const yr = d.getFullYear();
+           const mo = String(d.getMonth() + 1).padStart(2, '0');
+           const dt = String(d.getDate()).padStart(2, '0');
+           return isMonthOnly ? `${yr}-${mo}` : `${yr}-${mo}-${dt}`;
+        };
 
-           this.saveItems(this.FEE_STATUS_KEY, res.feeStatus);
-           this.feeStatusSubject.next(res.feeStatus);
+        if (res.expenses && res.expenses.length > 0) {
+           const mappedExpenses = res.expenses.map((e: any) => ({
+              ...e,
+              date: fixDateString(e.date),
+              month: fixDateString(e.month, true) || fixDateString(e.date, true) || new Date().toISOString().slice(0, 7)
+           }));
+           this.saveItems(this.EXPENSES_KEY, mappedExpenses);
+           this.expensesSubject.next(mappedExpenses);
+           hasData = true;
         }
+        if (res.feeStatus && res.feeStatus.length > 0) {
+           const mappedStatuses = res.feeStatus.map((s: any) => ({
+              ...s,
+              month: fixDateString(s.month, true)
+           }));
+           this.saveItems(this.FEE_STATUS_KEY, mappedStatuses);
+           this.feeStatusSubject.next(mappedStatuses);
+           hasData = true;
+        }
+        this.uiService.hideLoading();
+      },
+      error: (err) => {
+        console.error('Lỗi tải dữ liệu tài chính:', err);
+        this.uiService.hideLoading();
+      }
     });
   }
 
   private syncToCloud(): void {
+      this.uiService.showLoading('Đang lưu dữ liệu...');
       const expenses = this.expensesSubject.getValue();
       const feeStatus = this.feeStatusSubject.getValue();
-      this.googleSheetsService.syncFinanceToSheet(expenses, feeStatus).subscribe(res => {
-          console.log('Đã đồng bộ TÀI CHÍNH lên Google Sheet', res);
+      this.googleSheetsService.syncFinanceToSheet(expenses, feeStatus).subscribe({
+          next: (res) => {
+              console.log('Đã đồng bộ TÀI CHÍNH lên Google Sheet', res);
+              this.uiService.hideLoading();
+          },
+          error: (err) => {
+              console.error('Lỗi lưu dữ liệu tài chính:', err);
+              this.uiService.hideLoading();
+          }
       });
   }
 

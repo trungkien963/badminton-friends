@@ -99,7 +99,7 @@
                           </div>
 
                           <div class="col-right desktop-only" [ngClass]="row.carryOver > 0 ? 'text-danger' : (row.carryOver < 0 ? 'text-success' : 'text-muted')">
-                              {{ row.carryOver > 0 ? '+' : ''}}{{ row.carryOver === 0 ? '-' : (Math.round(row.carryOver) | number:'1.0-0' + 'đ') }}
+                              {{ row.carryOver > 0 ? '+' : ''}}{{ row.carryOver === 0 ? '-' : ((Math.round(row.carryOver) | number:'1.0-0') + 'đ') }}
                           </div>
 
                           <div class="col-right desktop-only text-xl text-bold" [ngClass]="row.totalOwe > 0 && !row.isPaid ? 'text-danger' : (row.isPaid ? 'text-success' : 'text-white')">
@@ -216,7 +216,7 @@
           <div class="detail-row">
               <span class="label">Tồn đọng / Nợ cũ:</span>
               <span class="val" [ngClass]="selectedPlayerDetails.carryOver > 0 ? 'text-danger' : (selectedPlayerDetails.carryOver < 0 ? 'text-success' : 'text-muted')">
-                  {{ selectedPlayerDetails.carryOver > 0 ? '+' : ''}}{{ selectedPlayerDetails.carryOver === 0 ? '-' : (Math.round(selectedPlayerDetails.carryOver) | number:'1.0-0' + 'đ') }}
+                  {{ selectedPlayerDetails.carryOver > 0 ? '+' : ''}}{{ selectedPlayerDetails.carryOver === 0 ? '-' : ((Math.round(selectedPlayerDetails.carryOver) | number:'1.0-0') + 'đ') }}
               </span>
           </div>
           <div class="detail-row total-row">
