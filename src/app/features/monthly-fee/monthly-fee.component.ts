@@ -151,13 +151,16 @@ export class MonthlyFeeComponent implements OnInit {
             if (r.date && r.date.startsWith(m)) daysInM += 1;
         });
 
-        // Total attendance of everyone in month m
+        // Total attendance of everyone (excluding GUEST) in month m
         let totalAttendanceInM = 0;
         this.players.forEach(otherP => {
-           const otherHist = otherP.playHistory ? JSON.parse(otherP.playHistory) : [];
-           otherHist.forEach((r: any) => {
-               if (r.date && r.date.startsWith(m)) totalAttendanceInM += 1;
-           });
+           const isOtherGuest = otherP.name?.toUpperCase().includes('GUEST');
+           if (!isOtherGuest) {
+               const otherHist = otherP.playHistory ? JSON.parse(otherP.playHistory) : [];
+               otherHist.forEach((r: any) => {
+                   if (r.date && r.date.startsWith(m)) totalAttendanceInM += 1;
+               });
+           }
         });
 
         const expsInM = this.expenses.filter(e => e.month === m);
@@ -165,14 +168,17 @@ export class MonthlyFeeComponent implements OnInit {
         const myDeductInM = expsInM.filter(e => e.payerId === p.id).reduce((acc, curr) => acc + Number(curr.amount), 0);
 
         const costDayM = totalAttendanceInM > 0 ? (totalExpInM / totalAttendanceInM) : 0;
-        const myGrossM = daysInM * costDayM;
+        const isGuest = p.name?.toUpperCase().includes('GUEST');
+        const myGrossM = isGuest ? 0 : daysInM * costDayM;
         const myNetM = myGrossM - myDeductInM;
 
         if (m === this.selectedMonth) {
             daysSelectedMonth = daysInM;
             grossSelected = myGrossM;
             deductSelected = myDeductInM;
-            totalDaysInSelectedMonth += daysInM;
+            if (!isGuest) {
+                totalDaysInSelectedMonth += daysInM;
+            }
         } else {
             runningDebt += myNetM;
             const statusM = this.feeStatuses.find(s => s.month === m && s.playerId === p.id);

@@ -21,9 +21,11 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.playerService.players$.subscribe(data => {
-      // Sort players by ranking score descending
-      const sorted = [...data].sort((a, b) => b.rankingScore - a.rankingScore);
-      this.totalMembers = sorted.length;
+      // Sort players by ranking score descending, excluding GUEST
+      const sorted = [...data]
+        .filter(p => !p.name?.toUpperCase().includes('GUEST'))
+        .sort((a, b) => b.rankingScore - a.rankingScore);
+      this.totalMembers = data.length;
       // Get only top 5 for the dashboard to keep it concise
       this.topPlayers = sorted.slice(0, 5);
     });

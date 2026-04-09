@@ -58,7 +58,9 @@ export class StatisticsComponent implements OnInit {
 
     this.playerService.players$.subscribe(data => {
       this.players = data.filter(p => p.isActive);
-      this.leaderboardPlayers = [...this.players].sort((a, b) => b.rankingScore - a.rankingScore);
+      this.leaderboardPlayers = [...this.players]
+        .filter(p => !p.name?.toUpperCase().includes('GUEST'))
+        .sort((a, b) => b.rankingScore - a.rankingScore);
       this.generateData();
     });
   }
