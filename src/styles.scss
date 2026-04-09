@@ -208,8 +208,36 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 12px !important;
 }
 
-/* Custom Spinner for showLoading */
-.swal2-loader {
-  border: 0.25em solid rgba(255, 255, 255, 0.2) !important;
-  border-top-color: var(--primary-color) !important;
+/* Custom Fancy Spinner for showLoading */
+.loading-popup {
+  padding-bottom: 30px !important;
+}
+
+.summer-spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.summer-loader {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 4px solid rgba(253, 224, 71, 0.15); /* Light primary */
+  border-top-color: var(--primary-color);
+  border-bottom-color: var(--primary-color);
+  animation: summerSpin 1.2s ease-in-out infinite, summerPulse 2s ease-in-out infinite;
+  box-shadow: 0 0 15px rgba(253, 224, 71, 0.2);
+}
+
+@keyframes summerSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes summerPulse {
+  0% { box-shadow: 0 0 15px rgba(253, 224, 71, 0.2); }
+  50% { box-shadow: 0 0 25px rgba(253, 224, 71, 0.5); }
+  100% { box-shadow: 0 0 15px rgba(253, 224, 71, 0.2); }
 }

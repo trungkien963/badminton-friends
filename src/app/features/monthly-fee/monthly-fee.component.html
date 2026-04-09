@@ -94,12 +94,12 @@
                           </div>
 
                           <div class="col-right desktop-only text-warning">
-                              <span *ngIf="row.deduct > 0">-{{ Math.round(row.deduct) | number:'1.0-0' }}đ</span>
+                              <span *ngIf="row.deduct > 0">({{ Math.round(row.deduct) | number:'1.0-0' }}đ)</span>
                               <span *ngIf="row.deduct === 0">-</span>
                           </div>
 
                           <div class="col-right desktop-only" [ngClass]="row.carryOver > 0 ? 'text-danger' : (row.carryOver < 0 ? 'text-success' : 'text-muted')">
-                              {{ row.carryOver > 0 ? '+' : ''}}{{ row.carryOver === 0 ? '-' : ((Math.round(row.carryOver) | number:'1.0-0') + 'đ') }}
+                              {{ row.carryOver > 0 ? '+' : ''}}{{ row.carryOver === 0 ? '-' : (row.carryOver < 0 ? ('(' + (Math.round(row.carryOver * -1) | number:'1.0-0') + 'đ)') : ((Math.round(row.carryOver) | number:'1.0-0') + 'đ')) }}
                           </div>
 
                           <div class="col-right desktop-only text-xl text-bold" [ngClass]="row.totalOwe > 0 && !row.isPaid ? 'text-danger' : (row.isPaid ? 'text-success' : 'text-white')">
@@ -135,7 +135,7 @@
                       </p>
                   </div>
                   <div class="expense-actions">
-                      <span class="amount expense-amount">-{{ ex.amount | number:'1.0-0' }}đ</span>
+                      <span class="amount expense-amount">({{ ex.amount | number:'1.0-0' }}đ)</span>
                       <button (click)="deleteExpense(ex.id)" class="btn-icon-danger" title="Xóa">✕</button>
                   </div>
               </div>
@@ -211,12 +211,12 @@
           </div>
           <div class="detail-row">
               <span class="label">Đã chi hộ quỹ (+):</span>
-              <span class="val text-warning">{{ selectedPlayerDetails.deduct > 0 ? (('-' + Math.round(selectedPlayerDetails.deduct) | number:'1.0-0') + 'đ') : '-' }}</span>
+              <span class="val text-warning">{{ selectedPlayerDetails.deduct > 0 ? ('(' + (Math.round(selectedPlayerDetails.deduct) | number:'1.0-0') + 'đ)') : '-' }}</span>
           </div>
           <div class="detail-row">
               <span class="label">Tồn đọng / Nợ cũ:</span>
               <span class="val" [ngClass]="selectedPlayerDetails.carryOver > 0 ? 'text-danger' : (selectedPlayerDetails.carryOver < 0 ? 'text-success' : 'text-muted')">
-                  {{ selectedPlayerDetails.carryOver > 0 ? '+' : ''}}{{ selectedPlayerDetails.carryOver === 0 ? '-' : ((Math.round(selectedPlayerDetails.carryOver) | number:'1.0-0') + 'đ') }}
+                  {{ selectedPlayerDetails.carryOver > 0 ? '+' : ''}}{{ selectedPlayerDetails.carryOver === 0 ? '-' : (selectedPlayerDetails.carryOver < 0 ? ('(' + (Math.round(selectedPlayerDetails.carryOver * -1) | number:'1.0-0') + 'đ)') : ((Math.round(selectedPlayerDetails.carryOver) | number:'1.0-0') + 'đ')) }}
               </span>
           </div>
           <div class="detail-row total-row">

@@ -7,7 +7,7 @@ import Swal from 'sweetalert2';
 export class UiService {
 
   private defaultSwalOptions = {
-    background: 'rgba(20, 30, 25, 0.95)',
+    background: 'rgba(20, 30, 25, 0.65)',
     color: '#fff',
     backdrop: 'rgba(0,0,0,0.6)',
     customClass: {
@@ -77,11 +77,14 @@ export class UiService {
   showLoading(text: string = 'Đang xử lý...') {
     Swal.fire({
       ...this.defaultSwalOptions,
-      title: text,
+      title: `<span style="font-weight: 800; font-size: 1.1em; letter-spacing: -0.5px;">${text}</span>`,
+      html: '<div class="summer-spinner-container"><div class="summer-loader"></div></div>',
       allowOutsideClick: false,
       allowEscapeKey: false,
-      didOpen: () => {
-        Swal.showLoading();
+      showConfirmButton: false,
+      customClass: {
+        ...this.defaultSwalOptions.customClass,
+        popup: 'glass-swal-popup loading-popup'
       }
     });
   }
