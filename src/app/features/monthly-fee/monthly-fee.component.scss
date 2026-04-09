@@ -485,7 +485,7 @@
 
 /* Responsive Utilities */
 .mobile-only { display: none; }
-.desktop-only { display: block; }
+/* .desktop-only doesn't need display: block by default to avoid overriding grid */
 
 @media (max-width: 1100px) {
     .desktop-only { display: none !important; }
