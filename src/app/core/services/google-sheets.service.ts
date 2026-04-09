@@ -28,7 +28,8 @@ export class GoogleSheetsService {
     const body = new URLSearchParams();
     body.set('payload', JSON.stringify(payload));
 
-    return this.http.post(this.SCRIPT_URL, body.toString(), {
+    const timestamp = new Date().getTime();
+    return this.http.post(`${this.SCRIPT_URL}?t=${timestamp}`, body.toString(), {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       responseType: 'text'
     }).pipe(
@@ -87,7 +88,8 @@ export class GoogleSheetsService {
     const body = new URLSearchParams();
     body.set('payload', JSON.stringify(payload));
 
-    return this.http.post(this.SCRIPT_URL, body.toString(), {
+    const timestamp = new Date().getTime();
+    return this.http.post(`${this.SCRIPT_URL}?t=${timestamp}`, body.toString(), {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       responseType: 'text'
     }).pipe(
