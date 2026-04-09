@@ -1,11 +1,13 @@
 <div class="container" style="padding-top: 40px; min-height: 100vh;">
   
-  <div style="margin-bottom: 30px;">
-    <button routerLink="/" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; cursor: pointer; padding: 8px 15px; margin-bottom: 20px; display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; transition: 0.2s;">
-      <i class="fas fa-arrow-left"></i> Quay lại
+  <div class="global-page-header">
+    <button routerLink="/" class="btn-back-home">
+      <i class="fa-solid fa-arrow-left icon-back"></i> <span>Trang chủ</span>
     </button>
-    <h1 class="text-gradient" style="font-size: 2.2rem; margin-bottom: 5px; line-height: 1.1;">MATCH SESSION</h1>
-    <h3 style="color: var(--primary-color); font-weight: 500; font-size: 1.1rem; margin: 0;">Tạo bảng đấu & Ghép cặp</h3>
+    <div class="header-content">
+      <h1 class="text-gradient" style="font-size: 2.2rem; margin-bottom: 5px; line-height: 1.1;">MATCH SESSION</h1>
+      <h3 style="color: var(--primary-color); font-weight: 500; font-size: 1.1rem; margin: 0;">Tạo bảng đấu & Ghép cặp</h3>
+    </div>
   </div>
 
   <div *ngIf="!generated" class="glass-card" style="padding: 25px; max-width: 800px; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">

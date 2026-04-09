@@ -1,16 +1,18 @@
 <div class="container players-page-container">
   
-  <div class="header-section">
-    <div>
+  <div class="global-page-header">
+    <button routerLink="/" class="btn-back-home">
+      <i class="fa-solid fa-arrow-left icon-back"></i> <span>Trang chủ</span>
+    </button>
+    
+    <div class="header-content">
       <h1 class="text-gradient">{{ 'PLAYERS.TITLE' | translate }}</h1>
       <h3 class="subtitle">{{ 'PLAYERS.SUBTITLE' | translate }}</h3>
     </div>
-    <div class="header-actions">
-      <button (click)="manualSync()" class="ocean-gradient-btn">
+    
+    <div class="header-actions-right">
+      <button (click)="manualSync()" class="ocean-gradient-btn" style="padding: 10px 20px;">
         <span class="icon-text">☁️ {{ 'PLAYERS.BTN_SYNC' | translate }}</span>
-      </button>
-      <button routerLink="/" class="ocean-gradient-btn secondary-btn">
-        <span class="icon-text">🏠 {{ 'PLAYERS.BTN_HOME' | translate }}</span>
       </button>
     </div>
   </div>

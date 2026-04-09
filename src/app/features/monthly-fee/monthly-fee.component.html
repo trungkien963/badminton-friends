@@ -1,15 +1,16 @@
 <div class="monthly-fee-container">
   
   <!-- Header Section -->
-  <header class="page-header">
-    <div class="header-left">
-      <button routerLink="/dashboard" class="btn-back">
-        <span class="icon">←</span> Trở về Menu
-      </button>
+  <header class="global-page-header">
+    <button routerLink="/dashboard" class="btn-back-home">
+      <i class="fa-solid fa-arrow-left icon-back"></i> <span>Trang chủ</span>
+    </button>
+    
+    <div class="header-content">
       <h1 class="page-title"><span class="emoji">💰</span> TÀI CHÍNH</h1>
     </div>
     
-    <div class="header-right">
+    <div class="header-actions-right">
       <div class="month-selector">
         <label>Tháng</label>
         <input type="month" [value]="selectedMonth" (change)="onMonthChange($event)" class="glass-input" />
